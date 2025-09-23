@@ -37,6 +37,6 @@
         <img src="https://github.com/characterMi/characterMi/raw/main/images/technologies/tailwind.svg" width="46" height="46" alt="Tailwind" />
     </li>
     <li>
-        <img src="https://github.com/characterMi/characterMi/raw/main/images/technologies/gsap.svg" width="46" height="46" alt="GSAP" />
+        <img src="https://github.com/characterMi/characterMi/raw/main/images/technologies/gsap-icon.png" width="46" height="46" alt="GSAP" />
     </li>
 </ul>
