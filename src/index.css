@@ -20,10 +20,15 @@
   --font-sans: "Round", sans-serif;
   --font-long: "Long", sans-serif;
   --font-round-bold: "Round Bold", sans-serif;
+  --color-dark: #111117;
   --color-yellow: #fff9cb;
-  --color-pink: #ffb0c4;
+  --color-pink-light: #ffb0c4;
+  --color-pink: rgb(223, 58, 147);
+  --color-purple: #6a5669;
+  --color-blue: #1e2d52;
+  --color-purple-pink: #5f3d6b;
   --breakpoint-sm: 40rem;
-  --breakpoint-xs: 20rem;
+  --breakpoint-xs: 28rem;
   --breakpoint-3xl: 120rem;
 }
 
@@ -58,6 +63,36 @@ body {
 .height-svh {
   height: 100vh;
   height: 100svh;
+}
+
+.gradient-title {
+  @apply text-pink;
+}
+
+@supports (
+  (-webkit-background-clip: text) or (background-clip: text) or
+    (-moz-background-clip: text) or (-webkit-text-fill-color: transparent)
+) {
+  .gradient-title {
+    background: -webkit-radial-gradient(
+      circle at 50% 90%,
+      rgb(255, 210, 123) 0,
+      rgb(223, 58, 147) 50%,
+      rgb(92, 22, 99) 90%,
+      rgba(32, 31, 66, 0) 100%
+    );
+    background: radial-gradient(
+      circle at 50% 90%,
+      rgb(255, 210, 123) 0,
+      rgb(223, 58, 147) 50%,
+      rgb(92, 22, 99) 90%,
+      rgba(32, 31, 66, 0) 100%
+    );
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 @layer utilities {
@@ -101,17 +136,6 @@ body {
       @apply size-full object-cover md:[object-position:50%_center] [object-position:75%_center];
     }
   }
-  .entrance-message {
-    @apply absolute inset-0 w-full h-dvh overflow-hidden z-20 opacity-100;
-
-    .entrance-logo {
-      @apply 2xl:w-72 3xl:w-80 md:w-60 w-48 absolute xs:top-[9.5rem] sm:top-[12.8rem] md:top-[8.5rem] 2xl:top-44 3xl:top-48 left-1/2 -translate-x-1/2;
-    }
-
-    .text-wrapper {
-      @apply mt-40 md:mt-60 2xl:mt-44 3xl:top-48;
-    }
-  }
   .jason {
     @apply relative z-10 lg:ps-40 2xl:ps-80 ps-10 py-40 mt-60 flex lg:flex-row flex-col justify-between gap-5 w-dvw overflow-x-hidden;
 
@@ -119,7 +143,7 @@ body {
       @apply text-yellow font-long uppercase text-8xl mb-20;
     }
     h2 {
-      @apply text-pink md:text-5xl text-3xl mb-7 md:pe-20 pe-10;
+      @apply text-pink-light md:text-5xl text-3xl mb-7 md:pe-20 pe-10;
     }
     p {
       @apply text-white md:text-2xl text-lg md:pe-28 pe-14;
@@ -156,7 +180,7 @@ body {
       @apply text-yellow font-long uppercase text-8xl mb-20;
     }
     h2 {
-      @apply text-pink md:text-5xl text-3xl mb-7 md:pe-20 pe-10;
+      @apply text-pink-light md:text-5xl text-3xl mb-7 md:pe-20 pe-10;
     }
     p {
       @apply text-white md:text-2xl text-lg md:pe-28 pe-14;
@@ -243,12 +267,6 @@ body {
     rgb(18, 18, 24) 43.03%,
     rgb(17, 17, 23) 51.63%
   );
-}
-
-.entrance-message {
-  mask-image: radial-gradient(circle at 50% 100vh, black 0%, transparent 0%);
-  mask-repeat: no-repeat;
-  mask-size: 100% 100%;
 }
 
 .lucia-content h1,

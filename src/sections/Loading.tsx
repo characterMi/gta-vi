@@ -9,7 +9,7 @@ const Loading = ({ isWebsiteLoaded }: { isWebsiteLoaded: boolean }) =>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 127.59 128.83"
-        className="w-1/3 sm:w-1/4 md:w-1/6 lg:w-1/12"
+        className="w-1/3 sm:w-1/4 md:w-1/6 lg:w-[5%]"
       >
         <defs>
           <linearGradient

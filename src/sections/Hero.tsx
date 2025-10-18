@@ -1,34 +1,55 @@
-import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect } from "react";
-import { calculateHeroMaskSize, heroScrollTriggerProps } from "../constants";
+import { useEffect, useRef, useState } from "react";
+import ComingSoon from "../components/ComingSoon";
+import Description from "../components/Description";
+import OpenTrailerDialog from "../components/OpenTrailerDialog";
+import WatchTrailer from "../components/WatchTrailer";
+import { heroScrollTriggerProps } from "../constants";
 import { useMediaQuery } from "../hooks/useMediaQuery";
+import { calculateHeroMaskSize } from "../lib";
 
 const Hero = () => {
-  useGSAP(() => {
-    ScrollTrigger.create(heroScrollTriggerProps());
-  }, []);
+  const triggerProgress = useRef(0);
+  const [heroMaskData, setHeroMaskData] = useState<ReturnType<
+    typeof calculateHeroMaskSize
+  > | null>(null);
 
-  useLayoutEffect(() => {
-    const calculateMaskSize = () => {
-      const logoMask = document.querySelector<SVGGElement>("#logoMask")!;
-      const {
-        fromLogoHorizontalPosition,
-        fromLogoVerticalPosition,
-        logoScaleFactor,
-      } = calculateHeroMaskSize(logoMask.getBBox());
+  useEffect(() => {
+    if (!heroMaskData) return;
 
-      logoMask.setAttribute(
-        "transform",
-        `translate(${fromLogoHorizontalPosition}, ${fromLogoVerticalPosition}) scale(${logoScaleFactor})`
+    const scrollTrigger = ScrollTrigger.create(
+      heroScrollTriggerProps(heroMaskData)
+    );
+
+    ScrollTrigger.refresh();
+
+    const start = scrollTrigger.start ?? 0;
+    const end = scrollTrigger.end ?? start;
+    const targetScroll = start + triggerProgress.current * (end - start);
+
+    scrollTrigger.scroll(targetScroll);
+
+    return () => {
+      triggerProgress.current = Math.min(
+        Math.max(scrollTrigger.progress ?? 0, 0),
+        1
       );
+      scrollTrigger.kill(true);
+    };
+  }, [heroMaskData]);
+
+  useEffect(() => {
+    const setNewHeroMaskData = () => {
+      setHeroMaskData(calculateHeroMaskSize());
     };
 
-    calculateMaskSize();
+    window.addEventListener("orientationchange", setNewHeroMaskData);
+    window.addEventListener("resize", setNewHeroMaskData);
 
-    window.addEventListener("resize", calculateMaskSize);
-
-    return () => window.removeEventListener("resize", calculateMaskSize);
+    return () => {
+      window.removeEventListener("orientationchange", setNewHeroMaskData);
+      window.removeEventListener("resize", setNewHeroMaskData);
+    };
   }, []);
 
   return (
@@ -43,17 +64,13 @@ const Hero = () => {
 
       <Mask />
 
-      <div
-        className="fixed top-1/5 left-1/2 -translate-y-1/5 -translate-x-1/2 w-48 h-36 logo-container"
-        aria-hidden
-      />
+      <OpenTrailerDialog />
 
-      {/* TODO: add the gradient + hue effect */}
-      {/* <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2">
-        <h1 className="uppercase text-8xl font-bold tracking-[-0.2rem] leading-[0.8] text-center ">
-          Coming <br /> on 26th <br /> 2026
-        </h1>
-      </div> */}
+      <WatchTrailer />
+
+      <ComingSoon onLogoLoad={() => setHeroMaskData(calculateHeroMaskSize())} />
+
+      <Description />
     </section>
   );
 };
@@ -82,7 +99,7 @@ const Images = () => {
 
 const Mask = () => (
   <div className="abs-full h-full svg-overlay">
-    <svg width="100%" height="100%">
+    <svg width="100%" height="100%" className="mask-container">
       <defs>
         <mask id="logoRevealMask">
           <rect width="100%" height="100%" fill="white" />

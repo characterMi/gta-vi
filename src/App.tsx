@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ReactLenis from "lenis/react";
-import { useEffect, useRef, useState } from "react";
+import { useLenis } from "lenis/react";
+import { useInsertionEffect, useRef, useState } from "react";
 
 import Hero from "./sections/Hero";
 import Loading from "./sections/Loading";
@@ -10,15 +10,13 @@ import Navbar from "./sections/Navbar";
 gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
+  const lenis = useLenis();
   const mainContainer = useRef<HTMLDivElement>(null);
   const [isWebsiteLoaded, setIsWebsiteLoaded] = useState(false);
 
-  useEffect(() => {
+  useInsertionEffect(() => {
     let pastTime = 0;
     let isLoadingCompleted = false;
-
-    // TODO: move to the top of the page as soon as the website is loaded
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 
     const update = () => {
       if (pastTime >= 250 && isLoadingCompleted) {
@@ -56,8 +54,8 @@ const App = () => {
               duration: 1.5,
               ease: "power1.inOut",
               onComplete: () => {
-                // TODO: prevent scrolling by default, as soon as the animations complete, start the scrolling...
                 window.document.body.style.setProperty("cursor", "auto");
+                lenis?.start();
               },
             },
             "<"
@@ -72,22 +70,31 @@ const App = () => {
 
     requestAnimationFrame(update);
 
-    const onLoad = () => (isLoadingCompleted = true);
+    const onLoad = () => {
+      isLoadingCompleted = true;
+
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+
+      lenis?.scrollTo(0, {
+        offset: 0,
+        duration: 0,
+        immediate: true,
+      });
+      // TODO: uncomment this line when the website is ready
+      lenis?.stop();
+    };
 
     window.addEventListener("load", onLoad);
 
-    return () => window.removeEventListener("load", onLoad);
-  }, []);
+    return () => {
+      window.removeEventListener("load", onLoad);
+    };
+  }, [lenis]);
 
   return (
-    <ReactLenis
-      root
-      options={{
-        syncTouch: true,
-        touchMultiplier: 0.8,
-        overscroll: false,
-      }}
-    >
+    <>
       <Loading isWebsiteLoaded={isWebsiteLoaded} />
 
       <div
@@ -99,7 +106,7 @@ const App = () => {
         <Navbar />
         <Hero />
       </div>
-    </ReactLenis>
+    </>
   );
 };
 

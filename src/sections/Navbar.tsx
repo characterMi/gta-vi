@@ -4,7 +4,7 @@ const Navbar = () => {
   const lenis = useLenis();
 
   return (
-    <nav className="fixed top-0 left-0 w-full flex justify-between items-center md:p-16 p-5 z-10">
+    <nav className="fixed top-0 left-0 w-full flex justify-between items-center p-12 sm:p-14 md:p-16 lg:p-[3.5vw] z-10">
       {/* LOGO */}
       <button
         className="group outline-none cursor-pointer"
@@ -12,8 +12,9 @@ const Navbar = () => {
         onClick={() => lenis?.scrollTo(0)}
       >
         <svg
-          width="2.5rem"
-          className="w-10 fill-white group-hover:fill-yellow group-focus-visible:fill-yellow transition-[fill]"
+          width="100%"
+          height="100%"
+          className="fill-white group-hover:fill-yellow group-focus-visible:fill-yellow transition-[fill] w-8 lg:w-[3vw]"
           aria-hidden
           viewBox="0 0 46 35"
           xmlns="http://www.w3.org/2000/svg"
@@ -29,8 +30,9 @@ const Navbar = () => {
         aria-label="Open the sidebar"
       >
         <svg
-          width="2.5rem"
-          className="w-10 fill-white group-hover:fill-yellow group-focus-visible:fill-yellow transition-[fill]"
+          width="100%"
+          height="100%"
+          className="fill-white group-hover:fill-yellow group-focus-visible:fill-yellow transition-[fill] w-8 lg:w-[3vw]"
           viewBox="0 0 450 450"
           xmlns="http://www.w3.org/2000/svg"
         >
