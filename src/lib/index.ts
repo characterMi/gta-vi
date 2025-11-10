@@ -1,41 +1,48 @@
-export const calculateHeroMaskSize = () => {
-  const logoContainer = document.querySelector(".logo-container")!;
+export const calculateMaskAnimationProps = () => {
+  const maskStartPositionEl = document.querySelector(".mask-start-position")!;
+  const maskDestinationEl = document.querySelector(".mask-destination")!;
   const logoMask = document.querySelector<SVGGElement>("#logoMask")!;
-  const logoDimensions = logoContainer.getBoundingClientRect();
-  const logoMaskBoundingBox = logoMask.getBBox();
 
-  const horizontalScaleRatio = logoDimensions.width / logoMaskBoundingBox.width;
-  const verticalScaleRatio = logoDimensions.height / logoMaskBoundingBox.height;
+  const maskStartPositionRect = maskStartPositionEl.getBoundingClientRect();
+  const maskDestinationRect = maskDestinationEl.getBoundingClientRect();
+  const maskDimensions = logoMask.getBBox();
 
-  const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
+  const logoScaleFactor = maskDestinationRect.width / maskDimensions.width;
 
-  const fromLogoHorizontalPosition =
-    window.innerWidth / 2 - logoDimensions.width / 1.25;
-  const fromLogoVerticalPosition =
-    window.innerHeight / 2 - logoDimensions.height / 1.6;
+  const fromX =
+    maskStartPositionRect.left -
+    (maskDimensions.width / 1.147) * logoScaleFactor;
+  const fromY =
+    maskStartPositionRect.top -
+    (maskDimensions.height / 1.35) * logoScaleFactor;
 
-  const toLogoHorizontalPosition =
-    logoDimensions.left +
-    (logoDimensions.width - logoMaskBoundingBox.width * logoScaleFactor) / 2 -
-    logoMaskBoundingBox.x * logoScaleFactor;
-  const toLogoVerticalPosition =
-    logoDimensions.top +
-    (logoDimensions.height - logoMaskBoundingBox.height * logoScaleFactor) / 2 -
-    logoMaskBoundingBox.y * logoScaleFactor;
+  const toX =
+    maskDestinationRect.left - (maskDimensions.width / 2.39) * logoScaleFactor;
+  const toY =
+    maskDestinationRect.top - (maskDimensions.height / 5.79) * logoScaleFactor;
 
   return {
     setLogoMaskTransform: (maskX?: number, maskY?: number, scale?: number) => {
       logoMask.setAttribute(
         "transform",
-        `translate(${maskX ?? fromLogoHorizontalPosition}, ${
-          maskY ?? fromLogoVerticalPosition
-        }) scale(${scale ?? logoScaleFactor})`
+        `translate(${maskX ?? fromX}, ${maskY ?? fromY}) scale(${
+          scale ?? logoScaleFactor
+        })`
       );
     },
     logoScaleFactor,
-    fromLogoHorizontalPosition,
-    fromLogoVerticalPosition,
-    toLogoHorizontalPosition,
-    toLogoVerticalPosition,
+    fromX,
+    fromY,
+    toX,
+    toY,
   };
 };
+
+// gives us a number between 0-1
+export const normalize = (min: number, max: number, progress: number) =>
+  Math.min(Math.max((progress - min) / (max - min), 0), 1);
+
+export const lerp = (min: number, max: number, progress: number) =>
+  min + (max - min) * progress;
+
+export const getAspectRatio = () => window.innerWidth / window.innerHeight;

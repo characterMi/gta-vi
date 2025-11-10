@@ -1,10 +1,26 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { twMerge } from "tailwind-merge";
 
-const WatchTrailer = () => {
+const WatchTrailer = ({
+  shouldRenderVerticalImages,
+}: {
+  shouldRenderVerticalImages: boolean;
+}) => {
+  const svgHeight =
+    Math.max(window.innerWidth / 20, window.innerHeight / 10) + "px";
+  const fontSize =
+    Math.max(window.innerWidth / 20, window.innerHeight / 10) * 0.12 + "px";
+  const letterSpacing =
+    Math.max(window.innerWidth / 30, window.innerHeight / 30) * 0.12 + "px";
+
+  const arrowWidth =
+    Math.max(window.innerWidth / 40, window.innerHeight / 30) + "px";
+
   useGSAP(() => {
     gsap.to(".watch-trailer-arrow", {
       y: "40%",
+      x: "-50%",
       scale: 0.9,
       opacity: 0.8,
       duration: 1,
@@ -15,14 +31,25 @@ const WatchTrailer = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-[2%] translate-y-[2%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 lg:gap-[0.5vw]">
-      <div className="watch-trailer">
+    <>
+      <div
+        className={twMerge(
+          "watch-trailer absolute",
+          shouldRenderVerticalImages
+            ? "bottom-1/2 translate-y-1/2 left-[85%] -translate-x-[85%]"
+            : "bottom-[5%] translate-y-[5%] left-1/2 -translate-x-1/2"
+        )}
+        aria-hidden
+      >
         <svg
-          aria-hidden
           fill="none"
           viewBox="-20 -17 230 162"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-32 lg:w-[10vw] stroke-white"
+          stroke="white"
+          style={{
+            height: svgHeight,
+            width: "auto",
+          }}
           xmlnsXlink="http://www.w3.org/1999/xlink"
         >
           <defs>
@@ -67,6 +94,7 @@ const WatchTrailer = () => {
               </feMerge>
             </filter>
           </defs>
+
           <g filter="url(#drop-shadow-filter-0)">
             <g filter="url(#drop-shadow-filter-1)">
               <path
@@ -89,7 +117,14 @@ const WatchTrailer = () => {
           </g>
         </svg>
 
-        <p className="text-white text-center text-xs lg:text-[1vw] uppercase tracking-[0.3rem] lg:tracking-[0.3vw] font-semibold abs-center !-translate-y-[115%] lg:!-translate-y-[110%] whitespace-nowrap">
+        <p
+          className="text-white text-center uppercase font-semibold abs-center !-translate-y-[53%] whitespace-nowrap"
+          style={{
+            textShadow: "0 0 0.5vw rgb(255, 255, 255), 0 0 0.8vw rgb(0, 0, 0)",
+            fontSize,
+            letterSpacing,
+          }}
+        >
           Watch Trailer 2
         </p>
       </div>
@@ -99,14 +134,18 @@ const WatchTrailer = () => {
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden
         xmlnsXlink="http://www.w3.org/1999/xlink"
-        className="watch-trailer-arrow w-8 lg:w-[2vw]"
+        className="watch-trailer-arrow absolute bottom-[2%] translate-y-[2%] left-1/2 -translate-1/2"
+        style={{
+          width: arrowWidth,
+          height: "auto",
+        }}
       >
         <path
           d="M33.5609 1.54346C34.0381 2.5875 33.6881 3.87821 32.7791 4.42633L17.0387 13.9181L1.48663 4.42115C0.580153 3.86761 0.235986 2.57483 0.717909 1.53365C1.19983 0.492464 2.32535 0.097152 3.23182 0.650692L17.0497 9.08858L31.051 0.64551C31.96 0.0973872 33.0837 0.499411 33.5609 1.54346Z"
           fill="#ffb0c4"
         />
       </svg>
-    </div>
+    </>
   );
 };
 

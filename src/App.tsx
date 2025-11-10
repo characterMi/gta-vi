@@ -12,7 +12,8 @@ gsap.registerPlugin(ScrollTrigger);
 const App = () => {
   const lenis = useLenis();
   const mainContainer = useRef<HTMLDivElement>(null);
-  const [isWebsiteLoaded, setIsWebsiteLoaded] = useState(false);
+  // TODO: set this to false when the website is ready
+  const [isWebsiteLoaded, setIsWebsiteLoaded] = useState(true);
 
   useInsertionEffect(() => {
     let pastTime = 0;
@@ -83,7 +84,7 @@ const App = () => {
         immediate: true,
       });
       // TODO: uncomment this line when the website is ready
-      lenis?.stop();
+      // lenis?.stop();
     };
 
     window.addEventListener("load", onLoad);

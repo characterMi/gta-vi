@@ -1,11 +1,19 @@
 const Description = () => {
+  const titleFontSize =
+    Math.min(window.innerWidth / 10, window.innerHeight / 10) + "px";
+  const descriptionFontSize =
+    Math.min(window.innerWidth / 22, window.innerHeight / 22) + "px";
+
   return (
     <div className="absolute top-0 left-0 w-full h-full description-container">
-      <div className="max-w-[80%] sm:max-w-[60%] description gradient-title flex flex-col justify-center gap-6 h-full mx-auto text-left">
-        <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-7xl lg:text-[6vw] font-black">
+      <div
+        className="max-w-[80%] sm:max-w-[70%] description gradient-title flex flex-col justify-center h-full mx-auto text-left leading-[1.8]"
+        style={{ textTransform: "none" }}
+      >
+        <h2 className="font-black" style={{ fontSize: titleFontSize }}>
           Vice City, USA.
         </h2>
-        <p className="text-sm xs:text-base sm:text-lg md:text-2xl lg:text-[1.5vw]">
+        <p className="leading-[1.2]" style={{ fontSize: descriptionFontSize }}>
           Jason and Lucia have always known the deck is stacked against them.
           But when an easy score goes wrong, they find themselves on the darkest
           side of the sunniest place in America, in the middle of a criminal

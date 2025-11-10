@@ -1,123 +1,142 @@
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { heroScrollAnimation } from "../constants";
+import { calculateMaskAnimationProps, getAspectRatio } from "../lib";
+
 import ComingSoon from "../components/ComingSoon";
 import Description from "../components/Description";
+import LogoIcon from "../components/LogoIcon";
 import OpenTrailerDialog from "../components/OpenTrailerDialog";
 import WatchTrailer from "../components/WatchTrailer";
-import { heroScrollTriggerProps } from "../constants";
-import { useMediaQuery } from "../hooks/useMediaQuery";
-import { calculateHeroMaskSize } from "../lib";
 
 const Hero = () => {
   const triggerProgress = useRef(0);
-  const [heroMaskData, setHeroMaskData] = useState<ReturnType<
-    typeof calculateHeroMaskSize
-  > | null>(null);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const shouldRenderVerticalImages = getAspectRatio() >= 2;
+
+  const setNewWindowSize = useCallback(() => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  }, []);
 
   useEffect(() => {
-    if (!heroMaskData) return;
+    const heroMaskData = calculateMaskAnimationProps();
 
     const scrollTrigger = ScrollTrigger.create(
-      heroScrollTriggerProps(heroMaskData)
+      heroScrollAnimation({
+        ...heroMaskData,
+        initialOverlayScale: Math.max(windowSize.width, windowSize.height),
+      })
     );
 
-    ScrollTrigger.refresh();
-
-    const start = scrollTrigger.start ?? 0;
-    const end = scrollTrigger.end ?? start;
-    const targetScroll = start + triggerProgress.current * (end - start);
-
-    scrollTrigger.scroll(targetScroll);
+    scrollTrigger.scroll(triggerProgress.current);
 
     return () => {
-      triggerProgress.current = Math.min(
-        Math.max(scrollTrigger.progress ?? 0, 0),
-        1
-      );
+      triggerProgress.current = scrollTrigger.scroll();
       scrollTrigger.kill(true);
     };
-  }, [heroMaskData]);
+  }, [windowSize]);
 
   useEffect(() => {
-    const setNewHeroMaskData = () => {
-      setHeroMaskData(calculateHeroMaskSize());
-    };
-
-    window.addEventListener("orientationchange", setNewHeroMaskData);
-    window.addEventListener("resize", setNewHeroMaskData);
+    window.addEventListener("orientationchange", setNewWindowSize);
+    window.addEventListener("resize", setNewWindowSize);
 
     return () => {
-      window.removeEventListener("orientationchange", setNewHeroMaskData);
-      window.removeEventListener("resize", setNewHeroMaskData);
+      window.removeEventListener("orientationchange", setNewWindowSize);
+      window.removeEventListener("resize", setNewWindowSize);
     };
-  }, []);
+  }, [setNewWindowSize]);
 
   return (
     <section className="overflow-hidden height-svh hero">
-      <div className="abs-center size-[110%]">
+      <div className="abs-center size-[110%] hero-images-wrapper will-change-transform">
         <div className="hero-image-container scale-105 size-full">
-          <Images />
+          <Images shouldRenderVerticalImages={shouldRenderVerticalImages} />
         </div>
       </div>
 
       <div className="bg-white abs-full opacity-0 fade-overlay" aria-hidden />
 
+      <div
+        className="mask-start-position fixed w-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        aria-hidden
+      />
+
       <Mask />
 
       <OpenTrailerDialog />
 
-      <WatchTrailer />
+      <WatchTrailer shouldRenderVerticalImages={shouldRenderVerticalImages} />
 
-      <ComingSoon onLogoLoad={() => setHeroMaskData(calculateHeroMaskSize())} />
+      <ComingSoon onLogoLoad={setNewWindowSize} />
 
       <Description />
     </section>
   );
 };
 
-const Images = () => {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+const Images = ({
+  shouldRenderVerticalImages,
+}: {
+  shouldRenderVerticalImages: boolean;
+}) => {
+  const isMobile = window.innerWidth <= 768;
 
   return (
     <>
       <img
         src={isMobile ? "/images/hero-bg-mobile.webp" : "/images/hero-bg.webp"}
         alt="Hero Image"
-        className="hero-image hero-bg will-change-transform"
+        className="hero-image"
       />
 
-      <img
-        src={
-          isMobile ? "/images/hero-text-mobile.webp" : "/images/hero-text.webp"
-        }
-        alt="Grand Theft Auto VI"
-        className="hero-image absolute top-0 hero-image-logo scale-125"
-      />
+      {shouldRenderVerticalImages ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="-190 15 600 107"
+          fill="white"
+          aria-hidden
+          className="hero-image absolute w-1/2 top-0 hero-image-logo"
+        >
+          <LogoIcon />
+        </svg>
+      ) : (
+        <img
+          src={
+            isMobile
+              ? "/images/hero-text-mobile.webp"
+              : "/images/hero-text.webp"
+          }
+          alt="Grand Theft Auto VI"
+          className="hero-image absolute top-0 hero-image-logo"
+        />
+      )}
     </>
   );
 };
 
 const Mask = () => (
-  <div className="abs-full h-full svg-overlay">
-    <svg width="100%" height="100%" className="mask-container">
+  <div className="abs-full h-full svg-overlay origin-center" aria-hidden>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      width="100%"
+      height="100%"
+      preserveAspectRatio="xMidYMid slice"
+      className="mask-container"
+    >
       <defs>
         <mask id="logoRevealMask">
           <rect width="100%" height="100%" fill="white" />
-          <g id="logoMask">
-            <path d="M154.7,93.5c0-2.4-1.5-4.6-4.3-4.6h-10.8c-2.7,0-4.3,2.1-4.3,4.6v19.4c0,2.1,1.6,4.3,4.3,4.3s10.8,0,10.9,0c2.1,0,4.2-1.7,4.2-4.3v-19.4h0ZM146.1,110.2h-2.1v-14.2h2.1v14.2Z" />
-            <path d="M122.5,88.9h-8.6v1.9h-1.6v7h1.6s0,15.2,0,15.2c0,2.3,1.8,4.3,4.3,4.3h10.8c2.4,0,4.3-1.8,4.3-4.3v-13.4h-8.6v10.6h-2.1v-12.4h10.8v-7h-10.8v-1.9Z" />
-            <path d="M102,110.2h-2.1v-21.3h-8.6v24c0,2.1,1.7,4.3,4.3,4.3s10.8,0,10.9,0c2.3,0,4.2-2.1,4.2-4.3v-24h-8.6v21.3h0Z" />
-            <path d="M84.7,88.9h-10.8c-2.2,0-4.3,1.7-4.3,4.6v4.2h8.6v-1.8h2.1v3.6h-6.4c-2.6,0-4.3,2.1-4.3,4.6v8.8c0,2.5,1.9,4.3,4.3,4.3h15.1v-23.7c0-2.6-1.8-4.6-4.3-4.6h0ZM80.4,110.2h-2.1v-3.6h2.1v3.6Z" />
-            <path d="M182.2,82.5v-11.6h-8.6v8.9h-2.1v-10.7h10.8v-7h-10.8v-3.3h-8.6v3.3h-1.7v7h1.7s0,13.3,0,13.3c0,2,1.6,4.3,4.3,4.3h10.8c2.7,0,4.3-2.2,4.3-4.3h0Z" />
-            <path d="M144.5,58.9c-2.2,0-4.3,1.8-4.3,4.3v23.6h8.7v-12.2h10.7v-7h-10.7v-1.7h10.7v-7h-15.1Z" />
-            <path d="M138.1,82.5v-4.4h-8.7v1.7h-2.1v-3.5h10.8v-13.1c0-2.6-2.3-4.3-4.3-4.3h-10.8c-2.5,0-4.3,2.1-4.3,4.3v19.3c0,2.3,1.7,4.3,4.3,4.3h10.8c2.1,0,4.3-1.6,4.3-4.3h0ZM127.2,65.8h2.1v3.5h-2.1v-3.5Z" />
-            <path d="M94.9,82.5v-11.6h-8.6v8.9h-2.1v-10.7h10.8v-7h-10.8v-3.3h-8.6v3.3h-1.7v7h1.7v13.3c0,2.1,1.7,4.3,4.3,4.3h10.8c2.6,0,4.3-2.1,4.3-4.3h0Z" />
-            <path d="M150.9,17.3v7h-6.4c-2,0-4.3,1.6-4.3,4.3v19.2c0,2.5,2,4.3,4.3,4.3h15.1V17.3h-8.6,0ZM150.9,45.1h-2.1v-14h2.1v14Z" />
-            <path d="M138,28.6c0-2.1-1.7-4.3-4.3-4.3s-5.1.6-6.4,1.7v-1.7h-8.6v27.8h8.6v-21h2.1v21h8.7v-23.5h0Z" />
-            <path d="M116.4,28.6c0-2.8-2.3-4.3-4.3-4.3h-10.8c-2.7,0-4.3,2.2-4.3,4.3v4.3h8.6v-1.8h2.1v3.5s-4,0-6.4,0-4.3,2-4.3,4.3v8.8c0,2.5,2,4.3,4.3,4.3h15.1v-23.5h0ZM107.8,45.1h-2.1v-3.5h2.1s0,3.5,0,3.5Z" />
-            <path d="M112.2,58.8h-6.5v-4.8s-10.8,0-10.8,0v-12.4c0-1.4-.7-2.7-1.8-3.5,1.6-1.1,1.8-2.5,1.8-3.4v-6.1c0-2.4-1.9-4.3-4.3-4.3h-15.1v32.3h8.6v-15h2.1s0,12.9,0,12.9c0,2.2,1.7,4.3,4.5,4.3h6.3v27.9h8.6v-21h2.1v21h8.7v-23.6c0-2.4-1.9-4.3-4.3-4.3h0ZM86.3,34.6h-2.1v-3.5h2.1v3.5Z" />
-            <path d="M73.3,56.6V24.3s-15.1,0-15.1,0c-2.3,0-4.3,1.9-4.3,4.3v19.2c0,2.3,1.8,4.3,4.3,4.3h6.4v1.9h-10.8v6.9s15.1,0,15.1,0c2.5,0,4.3-2.1,4.3-4.3h0ZM64.7,45.1h-2.1v-14h2.1v14Z" />
-          </g>
+          <LogoIcon id="logoMask" />
         </mask>
       </defs>
 

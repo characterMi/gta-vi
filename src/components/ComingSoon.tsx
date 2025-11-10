@@ -1,46 +1,83 @@
 const ComingSoon = ({ onLogoLoad }: { onLogoLoad: () => void }) => {
+  const fontSize =
+    Math.min(window.innerWidth / 7, window.innerHeight / 7) + "px";
+  const imgWidth =
+    Math.min(window.innerWidth / 3.5, window.innerHeight / 3.5) + "px";
+  const containerGap = window.innerHeight / 20 + "px";
+  const iconsContainerGap = window.innerWidth / 100 + "px";
+
   return (
     <>
-      {/* Just to calculate the size of the mask */}
+      {/* Just to calculate the x, y, scale of the mask */}
       <div
-        className="absolute top-0 left-0 w-full h-screen col-center gap-10 lg:gap-[3vw] -z-10 opacity-0"
+        className="absolute top-0 left-0 w-full h-screen col-center -z-10"
+        style={{
+          gap: containerGap,
+        }}
         aria-hidden
       >
         <div className="relative">
           <img
             src="/images/logo.webp"
             alt=""
-            className="object-cover w-36 sm:w-40 lg:w-[13vw]"
+            className="object-cover"
+            style={{
+              width: imgWidth,
+              height: "auto",
+            }}
             draggable={false}
             onLoad={onLogoLoad}
             loading="eager"
           />
 
-          <div className="absolute logo-container bottom-[220%] xs:bottom-[298%] sm:bottom-[272%] lg:bottom-[273%] left-[18%] xs:left-[19%] sm:left-[18.5%] lg:left-[18%] w-[56%] h-[73%] xs:h-[72%] sm:h-[72.5%] lg:h-[71.5%]" />
+          <div className="absolute mask-destination w-[57.25%] top-[11%] left-[24%]" />
         </div>
 
-        <h1 className="uppercase text-6xl xs:text-8xl lg:text-[8vw] font-black leading-[0.9]">
+        <p
+          style={{
+            fontSize,
+          }}
+          className="uppercase font-black leading-[0.8] -tracking-[0.2vw]"
+        >
           Coming <br /> May 26 <br /> 2026
-        </h1>
+        </p>
 
-        <div className="flex justify-center items-center gap-4 lg:gap-[1vw]">
+        <div
+          className="flex justify-center items-center gap-4 lg:gap-[1vw]"
+          style={{ gap: iconsContainerGap }}
+        >
           <Icons />
         </div>
       </div>
 
       {/* The real entrance message */}
-      <div className="entrance-message absolute top-0 left-0 w-full h-screen col-center gap-10 lg:gap-[3vw] bg-[100%_100%] bg-no-repeat">
+      <div
+        className="entrance-message absolute top-0 left-0 w-full h-screen col-center"
+        style={{ gap: containerGap }}
+      >
         <img
           src="/images/logo.webp"
           alt="Grand Theft Auto VI"
-          className="object-cover w-36 sm:w-40 lg:w-[13vw]"
+          className="object-cover"
+          style={{
+            width: imgWidth,
+            height: "auto",
+          }}
         />
 
-        <h1 className="uppercase text-6xl xs:text-8xl lg:text-[8vw] font-black leading-[0.9] text-center gradient-title coming-soon-text">
+        <h1
+          style={{
+            fontSize,
+          }}
+          className="uppercase font-black leading-[0.8] text-center gradient-title coming-soon-text -tracking-[0.2vw]"
+        >
           Coming <br /> May 26 <br /> 2026
         </h1>
 
-        <div className="icons-container flex justify-center items-center gap-4 lg:gap-[1vw]">
+        <div
+          className="icons-container flex justify-center items-center"
+          style={{ gap: iconsContainerGap }}
+        >
           <Icons />
         </div>
       </div>
@@ -49,14 +86,27 @@ const ComingSoon = ({ onLogoLoad }: { onLogoLoad: () => void }) => {
 };
 
 const Icons = () => {
+  const isMobile = window.innerWidth <= 768;
+
+  const ps5IconWidth =
+    Math.min(
+      window.innerWidth / (isMobile ? 7.5 : 10),
+      window.innerHeight / (isMobile ? 7.5 : 10)
+    ) + "px";
+  const xboxIconWidth =
+    Math.min(
+      window.innerWidth / (isMobile ? 4 : 6),
+      window.innerHeight / (isMobile ? 4 : 6)
+    ) + "px";
+
   return (
     <>
       <svg
         aria-hidden
         viewBox="0 0 93 20"
-        className="w-12 sm:w-16 lg:w-[5vw]"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        style={{ width: ps5IconWidth }}
       >
         <defs>
           <clipPath id="clippath-ps5">
@@ -118,7 +168,7 @@ const Icons = () => {
       <svg
         aria-hidden
         viewBox="0 0 158 20"
-        className="w-20 sm:w-24 lg:w-[8vw]"
+        style={{ width: xboxIconWidth }}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >

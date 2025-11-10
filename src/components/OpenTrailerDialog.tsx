@@ -1,7 +1,17 @@
 const OpenTrailerDialog = () => {
+  const size =
+    Math.max(
+      window.innerWidth / (window.innerWidth <= 768 ? 20 : 12.5),
+      window.innerHeight / 10
+    ) + "px";
+
   return (
     <button
-      className="open-trailer-dialog absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-24 lg:size-[7vw] bg-purple rounded-full hover:scale-110 focus-visible:scale-110 transition-transform outline-none duration-500 cursor-pointer"
+      className="open-trailer-dialog absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple rounded-full hover:scale-110 focus-visible:scale-110 transition-transform outline-none duration-500 cursor-pointer"
+      style={{
+        width: size,
+        height: size,
+      }}
       aria-label="Open trailer dialog"
     >
       <svg
