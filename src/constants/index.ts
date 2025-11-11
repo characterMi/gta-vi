@@ -1,10 +1,13 @@
 import gsap from "gsap";
-import {
-  getAspectRatio,
-  lerp,
-  normalize,
-  type calculateMaskAnimationProps,
-} from "../lib";
+import { createContext } from "react";
+import { lerp, normalize, type calculateMaskAnimationProps } from "../lib";
+
+export const WindowSizeContext = createContext({
+  width: window.innerWidth,
+  height: window.innerHeight,
+  aspectRatio: window.innerWidth / window.innerHeight,
+  setNewWindowSize: () => {},
+});
 
 export const heroScrollAnimation = ({
   fromX,
@@ -13,8 +16,10 @@ export const heroScrollAnimation = ({
   toY,
   setLogoMaskTransform,
   initialOverlayScale,
+  heroSectionHeight,
 }: ReturnType<typeof calculateMaskAnimationProps> & {
   initialOverlayScale: number;
+  heroSectionHeight: number;
 }): ScrollTrigger.StaticVars => {
   const IS_MOBILE = window.innerWidth <= 768;
 
@@ -22,11 +27,9 @@ export const heroScrollAnimation = ({
   const INITIAL_IMAGES_SCALE_POWER = IS_MOBILE ? 0.15 : 0.35;
 
   return {
-    trigger: ".hero",
-    start: "top top",
-    end: `${getAspectRatio() * 10000}px`,
-    pin: true,
-    pinSpacing: true,
+    id: "hero",
+    start: 0,
+    end: `${heroSectionHeight}px`,
     scrub: 2,
     onUpdate: ({ progress }) => {
       const firstAnimationNormalizedProgress = progress * (1 / 0.4);
@@ -53,7 +56,7 @@ export const heroScrollAnimation = ({
           [".hero-image-logo", ".watch-trailer", ".open-trailer-dialog"],
           {
             opacity: 1 - progress * (1 / 0.1),
-            zIndex: 10,
+            zIndex: 1,
           }
         );
       } else {
@@ -70,6 +73,10 @@ export const heroScrollAnimation = ({
         gsap.set(".fade-overlay", {
           opacity: Math.min(1, (progress - 0.15) * (1 / 0.2)),
         });
+      } else {
+        gsap.set(".fade-overlay", {
+          opacity: 0,
+        });
       }
 
       if (progress <= 0.4) {
@@ -85,7 +92,7 @@ export const heroScrollAnimation = ({
       if (progress >= 0.4) {
         gsap.set([".entrance-message", ".mask-container"], {
           scale: lerp(1.2, 0.8, normalize(0.4, 0.7, progress)),
-          zIndex: 10,
+          zIndex: 1,
         });
 
         gsap.set(".icons-container", {
@@ -149,7 +156,7 @@ export const heroScrollAnimation = ({
         });
 
         gsap.set(".description-container", {
-          zIndex: 10,
+          zIndex: 1,
         });
       } else {
         gsap.set(".description-container", {
@@ -174,15 +181,9 @@ export const heroScrollAnimation = ({
           }%, transparent ${positionPercentage}%)`,
         });
       } else {
-        const normalizedProgress = normalize(0.85, 1, progress);
-
-        const positionPercentage = ~~((1 - normalizedProgress) * 100);
-
-        // description at line 127
         gsap.set(".description-container", {
-          maskImage: `radial-gradient(150% 150% at 50% ${positionPercentage}vh, #111117 ${
-            positionPercentage / 2
-          }%, transparent ${positionPercentage}%)`,
+          maskImage:
+            "radial-gradient(150% 150% at 50% 0vh, #111117 50%, transparent 100%)",
         });
       }
 

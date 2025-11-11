@@ -1,30 +1,23 @@
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { heroScrollAnimation } from "../constants";
-import { calculateMaskAnimationProps, getAspectRatio } from "../lib";
+import { calculateMaskAnimationProps } from "../lib";
 
 import ComingSoon from "../components/ComingSoon";
 import Description from "../components/Description";
 import LogoIcon from "../components/LogoIcon";
 import OpenTrailerDialog from "../components/OpenTrailerDialog";
 import WatchTrailer from "../components/WatchTrailer";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 const Hero = () => {
   const triggerProgress = useRef(0);
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
 
-  const shouldRenderVerticalImages = getAspectRatio() >= 2;
+  const windowSize = useWindowSize();
 
-  const setNewWindowSize = useCallback(() => {
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-  }, []);
+  const shouldRenderVerticalImages = windowSize.aspectRatio >= 2;
+  const heroSectionHeight = windowSize.aspectRatio * 10000;
 
   useEffect(() => {
     const heroMaskData = calculateMaskAnimationProps();
@@ -33,10 +26,11 @@ const Hero = () => {
       heroScrollAnimation({
         ...heroMaskData,
         initialOverlayScale: Math.max(windowSize.width, windowSize.height),
+        heroSectionHeight,
       })
     );
 
-    scrollTrigger.scroll(triggerProgress.current);
+    scrollTrigger.scroll(triggerProgress.current || 1);
 
     return () => {
       triggerProgress.current = scrollTrigger.scroll();
@@ -44,41 +38,35 @@ const Hero = () => {
     };
   }, [windowSize]);
 
-  useEffect(() => {
-    window.addEventListener("orientationchange", setNewWindowSize);
-    window.addEventListener("resize", setNewWindowSize);
-
-    return () => {
-      window.removeEventListener("orientationchange", setNewWindowSize);
-      window.removeEventListener("resize", setNewWindowSize);
-    };
-  }, [setNewWindowSize]);
-
   return (
-    <section className="overflow-hidden height-svh hero">
-      <div className="abs-center size-[110%] hero-images-wrapper will-change-transform">
-        <div className="hero-image-container scale-105 size-full">
-          <Images shouldRenderVerticalImages={shouldRenderVerticalImages} />
+    <>
+      <div style={{ height: `${heroSectionHeight}px` }} aria-hidden />
+
+      <section className="overflow-hidden height-svh hero fixed top-0 left-0 w-full">
+        <div className="abs-center size-[110%] hero-images-wrapper will-change-transform">
+          <div className="hero-image-container scale-105 size-full">
+            <Images shouldRenderVerticalImages={shouldRenderVerticalImages} />
+          </div>
         </div>
-      </div>
 
-      <div className="bg-white abs-full opacity-0 fade-overlay" aria-hidden />
+        <div className="bg-white abs-full opacity-0 fade-overlay" aria-hidden />
 
-      <div
-        className="mask-start-position fixed w-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        aria-hidden
-      />
+        <div
+          className="mask-start-position fixed w-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          aria-hidden
+        />
 
-      <Mask />
+        <Mask />
 
-      <OpenTrailerDialog />
+        <OpenTrailerDialog />
 
-      <WatchTrailer shouldRenderVerticalImages={shouldRenderVerticalImages} />
+        <WatchTrailer shouldRenderVerticalImages={shouldRenderVerticalImages} />
 
-      <ComingSoon onLogoLoad={setNewWindowSize} />
+        <ComingSoon onLogoLoad={windowSize.setNewWindowSize} />
 
-      <Description />
-    </section>
+        <Description />
+      </section>
+    </>
   );
 };
 

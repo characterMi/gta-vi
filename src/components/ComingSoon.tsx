@@ -10,7 +10,7 @@ const ComingSoon = ({ onLogoLoad }: { onLogoLoad: () => void }) => {
     <>
       {/* Just to calculate the x, y, scale of the mask */}
       <div
-        className="absolute top-0 left-0 w-full h-screen col-center -z-10"
+        className="absolute top-0 left-0 w-full height-svh col-center -z-10"
         style={{
           gap: containerGap,
         }}
@@ -52,7 +52,7 @@ const ComingSoon = ({ onLogoLoad }: { onLogoLoad: () => void }) => {
 
       {/* The real entrance message */}
       <div
-        className="entrance-message absolute top-0 left-0 w-full h-screen col-center"
+        className="entrance-message absolute top-0 left-0 w-full height-svh col-center"
         style={{ gap: containerGap }}
       >
         <img

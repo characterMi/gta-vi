@@ -1,4 +1,5 @@
 import gsap from "gsap";
+import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
 import { useInsertionEffect, useRef, useState } from "react";
@@ -6,8 +7,10 @@ import { useInsertionEffect, useRef, useState } from "react";
 import Hero from "./sections/Hero";
 import Loading from "./sections/Loading";
 import Navbar from "./sections/Navbar";
+import Videos from "./sections/Videos";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(Draggable);
 
 const App = () => {
   const lenis = useLenis();
@@ -106,6 +109,7 @@ const App = () => {
       >
         <Navbar />
         <Hero />
+        <Videos />
       </div>
     </>
   );

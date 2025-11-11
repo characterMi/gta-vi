@@ -24,9 +24,10 @@
   --color-yellow: #fff9cb;
   --color-pink-light: #ffb0c4;
   --color-pink: rgb(223, 58, 147);
-  --color-purple: #6a5669;
   --color-blue: #1e2d52;
   --color-purple-pink: #5f3d6b;
+  --color-purple: #6a5669;
+  --color-purple-dark: #36364e;
   --breakpoint-sm: 40rem;
   --breakpoint-xs: 28rem;
   --breakpoint-3xl: 120rem;
@@ -54,7 +55,7 @@
 body {
   cursor: wait;
   font-family: "Round", sans-serif;
-  background-color: black;
+  background-color: #111117;
   color: white;
   color-scheme: dark;
   overscroll-behavior: none;
@@ -76,14 +77,14 @@ body {
   .gradient-title {
     background: -webkit-radial-gradient(
       circle at 50% 90%,
-      rgb(255, 210, 123) 0,
+      rgb(255, 210, 123) 0%,
       rgb(223, 58, 147) 50%,
       rgb(92, 22, 99) 90%,
       rgba(32, 31, 66, 0) 100%
     );
     background: radial-gradient(
       circle at 50% 90%,
-      rgb(255, 210, 123) 0,
+      rgb(255, 210, 123) 0%,
       rgb(223, 58, 147) 50%,
       rgb(92, 22, 99) 90%,
       rgba(32, 31, 66, 0) 100%
@@ -111,30 +112,8 @@ body {
 }
 
 @layer components {
-  .gradient-title {
-    @apply md:text-[8rem] text-[5rem] font-round-bold !font-extrabold uppercase md:leading-[7rem] leading-[4.5rem] text-center bg-gradient-to-r from-pink-400 via-red-400 to-orange-400 bg-clip-text text-transparent;
-  }
   .hero-image {
     @apply size-full object-cover;
-  }
-  .hero-section {
-    .trailer-logo {
-      @apply absolute -bottom-5 w-48 left-1/2 -translate-x-1/2;
-    }
-    .play-img {
-      @apply rounded-full md:size-28 size-20 bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center;
-    }
-    .fake-logo-wrapper {
-      @apply absolute z-50 xs:top-[9.5rem] sm:top-[12.8rem] md:top-[8.5rem] 2xl:top-44 3xl:top-48 left-1/2 -translate-x-1/2;
-    }
-    .overlay-logo {
-      @apply size-full object-cover opacity-0 w-60 md:w-60 2xl:w-72 3xl:w-80;
-    }
-  }
-  .first-vd-wrapper {
-    .first-vd {
-      @apply size-full object-cover md:[object-position:50%_center] [object-position:75%_center];
-    }
   }
   .jason {
     @apply relative z-10 lg:ps-40 2xl:ps-80 ps-10 py-40 mt-60 flex lg:flex-row flex-col justify-between gap-5 w-dvw overflow-x-hidden;
