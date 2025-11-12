@@ -15,20 +15,10 @@ const ImageGallery = ({ name, className, images }: Props) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleButtonClick = (index: number) => {
-    setActiveIndex(index);
-    gsap.to(sliderRef.current, {
-      x: (-index * (sliderRef.current?.offsetWidth || 0)) / images.length,
-      duration: 0.8,
-      ease: "power2.inOut",
-    });
-  };
-
   useGSAP(
     () => {
       gsap.to(`.${name}`, {
         opacity: 1,
-        duration: 2,
         scrollTrigger: {
           trigger: `.${name}`,
           start: "top bottom",
@@ -39,21 +29,50 @@ const ImageGallery = ({ name, className, images }: Props) => {
 
       Draggable.create(sliderRef.current, {
         type: "x",
+        activeCursor: "default",
+        cursor: "default",
         resistance: 10,
-        bounds: ".gallery-wrapper",
         inertia: true,
-        edgeResistance: 0.8,
+        edgeResistance: 0.6,
         overshootTolerance: 16,
-        onDragEnd: function () {
-          const slideWidth = this.target.offsetWidth / images.length;
+        onDrag: function () {
+          const slideWidth = this.target.scrollWidth / images.length;
+
+          const minX = slideWidth * -0.9;
+          const maxX = slideWidth * -0.1;
+
+          if (this.x > maxX) {
+            this.x = maxX + (this.x - maxX) * 0.2;
+          }
+
+          if (this.x < minX) {
+            this.x = minX - (minX - this.x) * 0.2;
+          }
+        },
+        onRelease: function () {
+          const slideWidth = this.target.scrollWidth / images.length;
+
+          const minX = slideWidth * -0.9;
+          const maxX = slideWidth * -0.1;
+
           const newIndex = Math.round(Math.abs(this.x) / slideWidth);
+          let targetX = this.x;
+
+          if (this.x > maxX) targetX = maxX;
+          else if (this.x < minX) targetX = minX;
+          else {
+            targetX =
+              newIndex === 0
+                ? newIndex * slideWidth + slideWidth * -0.1
+                : -newIndex * slideWidth * 0.9;
+          }
 
           setActiveIndex(newIndex);
 
           gsap.to(this.target, {
-            x: -newIndex * slideWidth,
-            duration: 0.5,
-            ease: "power1.inOut",
+            x: targetX,
+            duration: 0.8,
+            ease: "power3.out",
           });
         },
       });
@@ -63,15 +82,11 @@ const ImageGallery = ({ name, className, images }: Props) => {
 
   return (
     <div
-      className={twMerge(
-        "gallery-wrapper overflow-hidden w-full opacity-0",
-        name,
-        className
-      )}
+      className={twMerge("overflow-hidden w-full opacity-0", name, className)}
     >
       <div
         ref={sliderRef}
-        className="flex items-center justify-center gap-[3vw]"
+        className="flex items-center justify-center gap-[3vw] -translate-x-[5%]"
         style={{ width: images.length * 100 + "%" }}
       >
         {images.map((image) => (
@@ -79,16 +94,17 @@ const ImageGallery = ({ name, className, images }: Props) => {
         ))}
       </div>
 
-      <div className="flex items-center gap-[3vw] mt-[8vw] p-[6vw] bg-white/5 w-max rounded-full mx-auto">
+      <div
+        className="flex items-center gap-[3vw] mt-[8vw] p-[6vw] bg-white/5 w-max rounded-full mx-auto"
+        aria-hidden
+      >
         {images.map((image, index) => (
-          <button
+          <span
             key={image.src}
-            onClick={() => handleButtonClick(index)}
             className={twMerge(
-              "w-[2vw] h-[2vw] rounded-full transition-colors duration-300 cursor-pointer",
+              "w-[2vw] h-[2vw] rounded-full transition-colors duration-300",
               activeIndex === index ? "bg-white" : "bg-white/10"
             )}
-            aria-label={`Click to view image ${index + 1}`}
           />
         ))}
       </div>

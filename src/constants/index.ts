@@ -196,6 +196,16 @@ export const heroScrollAnimation = ({
           opacity: 1,
         });
       }
+
+      if (progress >= 0.99) {
+        gsap.set(".hero", {
+          zIndex: -1,
+        });
+      } else {
+        gsap.set(".hero", {
+          zIndex: 1,
+        });
+      }
     },
   };
 };

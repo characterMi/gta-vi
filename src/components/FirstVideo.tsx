@@ -1,3 +1,4 @@
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
@@ -8,6 +9,18 @@ import ImageGallery from "./ImageGallery";
 
 const FirstVideo = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useGSAP(() => {
+    gsap.to(".jason-image-container", {
+      y: "-5%",
+      scrollTrigger: {
+        trigger: ".jason-image-container",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+  }, []);
 
   return (
     <div className="first-vd-wrapper pt-[220vh] relative">
@@ -46,7 +59,7 @@ const FirstVideo = () => {
           />
         </div>
 
-        <div className="hidden md:flex flex-col w-[40vw] ml-[2vw] mt-[16vw]">
+        <div className="hidden md:flex flex-col w-[40vw] ml-[2vw] mt-[16vw] jason-image-container translate-y-[5%]">
           <CharacterImage
             width={51}
             height={51}
@@ -120,10 +133,6 @@ const FirstVdTrigger = ({
           filter: `blur(${(normalize(0, 0.2, progress) - 1) * -10}px)`,
         });
 
-        gsap.set(".first-vd", {
-          opacity: normalize(0, 0.5, progress),
-        });
-
         gsap.set(".vd-section-bg", {
           opacity: normalize(0.75, 1, progress),
         });
@@ -135,6 +144,16 @@ const FirstVdTrigger = ({
             normalize(0, 0.9, progress)
           ),
         });
+
+        if (progress >= 0.95) {
+          gsap.set(".first-vd", {
+            opacity: 0,
+          });
+        } else {
+          gsap.set(".first-vd", {
+            opacity: normalize(0, 0.5, progress),
+          });
+        }
       },
     });
 

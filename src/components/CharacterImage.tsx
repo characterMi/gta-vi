@@ -14,6 +14,7 @@ const CharacterImage = ({
     <button
       className={twMerge("bg-yellow group outline-none", className)}
       style={{ width: width + "vw", height: height + "vw" }}
+      aria-label="Click to view full image"
     >
       <div className="relative size-full group-active:scale-[0.97] group-focus-visible:scale-[0.97] md:group-hover:scale-[0.97] transition-transform duration-700 ease-in-out cursor-zoom-in">
         <img
