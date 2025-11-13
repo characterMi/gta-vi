@@ -82,7 +82,11 @@ const ImageGallery = ({ name, className, images }: Props) => {
 
   return (
     <div
-      className={twMerge("overflow-hidden w-full opacity-0", name, className)}
+      className={twMerge(
+        "overflow-hidden w-full opacity-0 md:hidden",
+        name,
+        className
+      )}
     >
       <div
         ref={sliderRef}

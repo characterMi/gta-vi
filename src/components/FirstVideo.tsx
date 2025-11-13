@@ -30,8 +30,13 @@ const FirstVideo = () => {
         ref={videoRef}
         muted
         playsInline
+        preload="auto"
+        aria-hidden
         src="/videos/jason-first.mp4"
-        className="first-vd opacity-0 size-full fixed top-0 left-0 object-cover lg:[object-position:50%_center] [object-position:75%_center]"
+        className="first-vd hidden size-full fixed top-0 left-0 object-cover lg:[object-position:50%_center] [object-position:75%_center]"
+        style={{
+          contain: "layout paint size style",
+        }}
       />
 
       <div className="relative z-2 flex flex-col items-center md:flex-row md:items-start md:justify-center">
@@ -80,8 +85,8 @@ const FirstVideo = () => {
         </div>
 
         <CharacterImage
-          width={98}
-          height={98}
+          width={97}
+          height={97}
           className="ml-auto mb-[3vw] md:hidden"
           alt="Jason inside a car sitting behind the wheel looking into the distance."
           src="/images/jason-1.webp"
@@ -90,7 +95,6 @@ const FirstVideo = () => {
 
         <ImageGallery
           name="json"
-          className="md:hidden"
           images={[
             {
               src: "/images/jason-2.webp",
@@ -127,7 +131,6 @@ const FirstVdTrigger = ({
       id: "first-vd",
       start: heroEnd * 0.97,
       end: heroEnd + windowSize.height * 2,
-      scrub: 2,
       onUpdate: ({ progress }) => {
         gsap.set(".first-vd", {
           filter: `blur(${(normalize(0, 0.2, progress) - 1) * -10}px)`,
@@ -145,12 +148,13 @@ const FirstVdTrigger = ({
           ),
         });
 
-        if (progress >= 0.95) {
+        if (progress >= 1 || progress <= 0) {
           gsap.set(".first-vd", {
-            opacity: 0,
+            display: "none",
           });
         } else {
           gsap.set(".first-vd", {
+            display: "block",
             opacity: normalize(0, 0.5, progress),
           });
         }
