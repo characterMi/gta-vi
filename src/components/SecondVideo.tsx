@@ -158,11 +158,8 @@ const SecondVdTrigger = ({
           });
         }
 
-        currentTime.current = lerp(
-          0,
-          videoRef.current?.duration || 0,
-          normalize(0, 0.6, progress)
-        );
+        currentTime.current =
+          normalize(0, 0.6, progress) * (videoRef.current?.duration || 0);
 
         gsap.set(".second-vd", {
           scale: lerp(1.1, 1, normalize(0.6, 1, progress)),

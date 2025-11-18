@@ -66,6 +66,14 @@ body {
   height: 100svh;
 }
 
+canvas {
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100svh !important;
+  object-fit: cover;
+  transform-origin: center center;
+}
+
 .gradient-title {
   @apply text-pink;
 }
@@ -114,46 +122,6 @@ body {
 @layer components {
   .hero-image {
     @apply size-full object-cover;
-  }
-  .lucia {
-    @apply relative;
-  }
-  .lucia-life {
-    @apply relative z-10 py-40 mt-60 flex lg:flex-row flex-col justify-between gap-5 w-dvw overflow-x-hidden;
-
-    h1 {
-      @apply text-yellow font-long uppercase text-8xl mb-20;
-    }
-    h2 {
-      @apply text-pink-light md:text-5xl text-3xl mb-7 md:pe-20 pe-10;
-    }
-    p {
-      @apply text-white md:text-2xl text-lg md:pe-28 pe-14;
-    }
-    p:last-of-type {
-      @apply md:hidden block xl:block;
-    }
-    .lucia-1 {
-      @apply bg-yellow lg:h-[80vh] w-auto -translate-x-5;
-
-      img {
-        @apply size-full object-cover [object-position:85%_center] hover:scale-[0.98] transition duration-700 ease-in-out;
-      }
-    }
-    .lucia-2 {
-      @apply bg-yellow lg:h-[60vh] lg:w-[70%] w-[80%] md:my-36 my-20 lg:-translate-x-5 translate-x-5;
-
-      img {
-        @apply size-full object-cover [object-position:50%_center] hover:scale-x-[0.98] hover:scale-y-[0.98] transition duration-700 ease-in-out;
-      }
-    }
-    .lucia-3 {
-      @apply bg-yellow lg:h-[90vh] md:w-[60%] -translate-x-5;
-
-      img {
-        @apply size-full object-cover [object-position:62%_center] hover:scale-x-[0.98] hover:scale-y-[0.99] transition duration-700 ease-in-out;
-      }
-    }
   }
   .lucia-content {
     @apply flex justify-center items-center;

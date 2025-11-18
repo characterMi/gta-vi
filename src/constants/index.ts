@@ -21,10 +21,8 @@ export const heroScrollAnimation = ({
   initialOverlayScale: number;
   heroSectionHeight: number;
 }): ScrollTrigger.StaticVars => {
-  const IS_MOBILE = window.innerWidth <= 768;
-
-  const INITIAL_IMAGES_SCALE = IS_MOBILE ? 1 : 1.15;
-  const INITIAL_IMAGES_SCALE_POWER = IS_MOBILE ? 0.15 : 0.35;
+  const INITIAL_IMAGES_SCALE = 1.2;
+  const INITIAL_IMAGES_SCALE_POWER = 0.25;
 
   return {
     id: "hero",

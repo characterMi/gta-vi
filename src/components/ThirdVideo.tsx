@@ -1,28 +1,15 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useScrollLottie } from "../hooks/useScrollLottie";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { normalize } from "../lib";
+import ScrollLottie from "./ScrollLottie";
 
 const ThirdVideo = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   return (
     <div className="third-vd-wrapper pt-[190vh] relative">
-      <ThirdVdTrigger videoRef={videoRef} />
-
-      <video
-        ref={videoRef}
-        muted
-        //playsInline
-        preload="auto"
-        aria-hidden
-        src="/videos/lucia-first-mobile.mp4"
-        className="third-vd hidden size-full fixed top-0 left-0 object-cover [object-position:15%_center]"
-        style={{
-          contain: "layout paint size style",
-        }}
-      />
+      <ThirdVdTrigger />
 
       <div className="relative z-2 flex flex-col items-center md:flex-row md:items-start md:justify-center">
         <div className="max-w-4/5 mb-[15vw] mx-auto md:w-[36vw] md:mb-0 md:mx-0">
@@ -101,12 +88,11 @@ const ThirdVideo = () => {
   );
 };
 
-const ThirdVdTrigger = ({
-  videoRef,
-}: {
-  videoRef: React.RefObject<HTMLVideoElement | null>;
-}) => {
+const OBJECT_POSITION = { x: 0.15, y: 0 };
+
+const ThirdVdTrigger = () => {
   const windowSize = useWindowSize();
+  const { setAnimationInstance, animate } = useScrollLottie();
 
   useEffect(() => {
     const trigger = ScrollTrigger.create({
@@ -116,6 +102,12 @@ const ThirdVdTrigger = ({
       end: "+=220%",
       scrub: 2,
       onUpdate: ({ progress }) => {
+        animate(progress);
+
+        gsap.set("#lucia-first", {
+          opacity: progress >= 1 || progress <= 0 ? 0 : 1,
+        });
+
         gsap.set(".vd-section-bg", {
           opacity: (normalize(0, 0.1, progress) - 1) * -1,
         });
@@ -125,31 +117,27 @@ const ThirdVdTrigger = ({
             opacity: normalize(0.9, 1, progress),
           });
         }
-
-        gsap.set(videoRef.current, {
-          currentTime: progress * (videoRef.current?.duration || 0),
-          duration: 3,
-          ease: "power1.inOut",
-        });
-
-        if (progress >= 1 || progress <= 0) {
-          gsap.set(".third-vd", {
-            display: "none",
-          });
-        } else {
-          gsap.set(".third-vd", {
-            display: "block",
-          });
-        }
       },
     });
 
     return () => {
       trigger.kill(true);
     };
-  }, [windowSize, videoRef]);
+  }, [windowSize, animate]);
 
-  return null;
+  return (
+    <ScrollLottie
+      id="lucia-first"
+      objectPosition={OBJECT_POSITION}
+      src="/videos/lucia-first.json"
+      setAnimationInstance={setAnimationInstance}
+      defaultImage={{
+        src: "/images/lucia-first-poster.webp",
+        alt: "Lucia hugging Jason near a busy street.",
+        className: "[object-position:15%_top]",
+      }}
+    />
+  );
 };
 
 export default ThirdVideo;

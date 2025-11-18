@@ -43,18 +43,13 @@ const Hero = () => {
       <div style={{ height: `${heroSectionHeight}px` }} aria-hidden />
 
       <section className="overflow-hidden height-svh hero fixed top-0 left-0 w-full">
-        <div className="abs-center size-[110%] hero-images-wrapper will-change-transform">
+        <div className="abs-full hero-images-wrapper will-change-transform">
           <div className="hero-image-container scale-105 size-full">
             <Images shouldRenderVerticalImages={shouldRenderVerticalImages} />
           </div>
         </div>
 
         <div className="bg-white abs-full opacity-0 fade-overlay" aria-hidden />
-
-        <div
-          className="mask-start-position fixed w-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          aria-hidden
-        />
 
         <Mask />
 

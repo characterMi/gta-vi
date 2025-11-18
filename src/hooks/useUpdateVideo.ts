@@ -6,18 +6,22 @@ export const useUpdateVideo = (
 ) => {
   useEffect(() => {
     let reqId: number | null = null;
+    let shouldPlay = true;
 
     const updateVideo = () => {
-      if (currentTime.current === 0 && video) {
+      if (currentTime.current <= 0 && video) {
         video.currentTime = 0;
+        shouldPlay = true;
       }
 
-      if (video?.ended) return;
+      if (currentTime.current >= (video?.duration || 0)) shouldPlay = false;
 
-      if (currentTime.current > (video?.currentTime || 0)) {
-        video?.play();
-      } else {
-        video?.pause();
+      if (shouldPlay) {
+        if (currentTime.current > (video?.currentTime || 0)) {
+          video?.play();
+        } else {
+          video?.pause();
+        }
       }
 
       reqId = requestAnimationFrame(updateVideo);

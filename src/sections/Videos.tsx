@@ -5,8 +5,6 @@ import ThirdVideo from "../components/ThirdVideo";
 const Videos = () => {
   return (
     <section className="relative">
-      {/* <canvas className="vd-canvas size-full fixed top-0 left-0 z-10" /> */}
-
       <div
         className="absolute top-0 left-0 size-full bg-dark opacity-0 vd-section-bg z-1"
         aria-hidden

@@ -1,20 +1,16 @@
 export const calculateMaskAnimationProps = () => {
-  const maskStartPositionEl = document.querySelector(".mask-start-position")!;
   const maskDestinationEl = document.querySelector(".mask-destination")!;
   const logoMask = document.querySelector<SVGGElement>("#logoMask")!;
 
-  const maskStartPositionRect = maskStartPositionEl.getBoundingClientRect();
   const maskDestinationRect = maskDestinationEl.getBoundingClientRect();
   const maskDimensions = logoMask.getBBox();
 
   const logoScaleFactor = maskDestinationRect.width / maskDimensions.width;
 
   const fromX =
-    maskStartPositionRect.left -
-    (maskDimensions.width / 1.147) * logoScaleFactor;
+    window.innerWidth / 2 - (maskDimensions.width / 1.147) * logoScaleFactor;
   const fromY =
-    maskStartPositionRect.top -
-    (maskDimensions.height / 1.35) * logoScaleFactor;
+    window.innerHeight / 2 - (maskDimensions.height / 1.35) * logoScaleFactor;
 
   const toX =
     maskDestinationRect.left - (maskDimensions.width / 2.39) * logoScaleFactor;

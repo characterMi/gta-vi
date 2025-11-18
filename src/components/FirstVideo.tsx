@@ -1,15 +1,15 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useScrollLottie } from "../hooks/useScrollLottie";
 import { useWindowSize } from "../hooks/useWindowSize";
-import { lerp, normalize } from "../lib";
+import { normalize } from "../lib";
 import CharacterImage from "./CharacterImage";
 import ImageGallery from "./ImageGallery";
+import ScrollLottie from "./ScrollLottie";
 
 const FirstVideo = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   useGSAP(() => {
     gsap.to(".jason-image-container", {
       y: "-5%",
@@ -24,20 +24,7 @@ const FirstVideo = () => {
 
   return (
     <div className="first-vd-wrapper pt-[220vh] relative">
-      <FirstVdTrigger videoRef={videoRef} />
-
-      <video
-        ref={videoRef}
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden
-        src="/videos/jason-first.mp4"
-        className="first-vd hidden size-full fixed top-0 left-0 object-cover lg:[object-position:50%_center] [object-position:75%_center]"
-        style={{
-          contain: "layout paint size style",
-        }}
-      />
+      <FirstVideoTrigger />
 
       <div className="relative z-2 flex flex-col items-center md:flex-row md:items-start md:justify-center">
         <div className="max-w-4/5 mb-[15vw] mx-auto md:w-[36vw] md:mb-0 md:mx-0">
@@ -117,12 +104,14 @@ const FirstVideo = () => {
   );
 };
 
-const FirstVdTrigger = ({
-  videoRef,
-}: {
-  videoRef: React.RefObject<HTMLVideoElement | null>;
-}) => {
+const OBJECT_POSITION = {
+  mobile: { x: 0.75, y: 0 },
+  desktop: { x: 0.5, y: 0 },
+};
+
+const FirstVideoTrigger = () => {
   const windowSize = useWindowSize();
+  const { setAnimationInstance, animate } = useScrollLottie();
 
   useEffect(() => {
     const { end: heroEnd } = ScrollTrigger.getById("hero")!;
@@ -131,42 +120,42 @@ const FirstVdTrigger = ({
       id: "first-vd",
       start: heroEnd * 0.97,
       end: heroEnd + windowSize.height * 2,
+      scrub: 2,
       onUpdate: ({ progress }) => {
-        gsap.set(".first-vd", {
-          filter: `blur(${(normalize(0, 0.2, progress) - 1) * -10}px)`,
+        animate(progress);
+
+        gsap.set("#jason-first", {
+          filter: `blur(${
+            (normalize(0, 0.2, progress) - 1) * -10
+          }px) brightness(${normalize(0, 0.3, progress)})`,
+          opacity: progress >= 1 ? 0 : normalize(0, 0.3, progress),
         });
 
         gsap.set(".vd-section-bg", {
           opacity: normalize(0.75, 1, progress),
         });
-
-        gsap.set(videoRef.current, {
-          currentTime: lerp(
-            0,
-            videoRef.current?.duration || 0,
-            normalize(0, 0.9, progress)
-          ),
-        });
-
-        if (progress >= 1 || progress <= 0) {
-          gsap.set(".first-vd", {
-            display: "none",
-          });
-        } else {
-          gsap.set(".first-vd", {
-            display: "block",
-            opacity: normalize(0, 0.5, progress),
-          });
-        }
       },
     });
 
     return () => {
       trigger.kill(true);
     };
-  }, [windowSize, videoRef]);
+  }, [windowSize, animate]);
 
-  return null;
+  return (
+    <ScrollLottie
+      id="jason-first"
+      src="/videos/jason-first.json"
+      containerClassName="will-change-[filter,opacity]"
+      setAnimationInstance={setAnimationInstance}
+      defaultImage={{
+        src: "/images/jason-first-poster.webp",
+        alt: "Jason embracing Lucia while looking into the distance.",
+        className: "lg:[object-position:center_top] [object-position:75%_top]",
+      }}
+      objectPosition={OBJECT_POSITION}
+    />
+  );
 };
 
 export default FirstVideo;
