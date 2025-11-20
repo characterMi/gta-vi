@@ -23,7 +23,10 @@ const App = () => {
     let isLoadingCompleted = false;
 
     const update = () => {
-      if (pastTime >= 250 && isLoadingCompleted) {
+      if (
+        pastTime >= 250 &&
+        isLoadingCompleted /* TODO: && pastTime % 125 === 0 */
+      ) {
         gsap
           .timeline()
           .to(".loading-gradient-effect", {

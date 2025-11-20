@@ -1,13 +1,14 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect } from "react";
-import { useScrollLottie } from "../hooks/useScrollLottie";
+import { useContext, useEffect } from "react";
+import { GetMainVideosContext } from "../constants";
+import { useUpdateVideoOnScroll } from "../hooks/useUpdateVideoOnScroll";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { normalize } from "../lib";
 import CharacterImage from "./CharacterImage";
 import ImageGallery from "./ImageGallery";
-import ScrollLottie from "./ScrollLottie";
+import VideoOnScroll from "./VideoOnScroll";
 
 const FirstVideo = () => {
   useGSAP(() => {
@@ -104,29 +105,30 @@ const FirstVideo = () => {
   );
 };
 
-const OBJECT_POSITION = {
-  mobile: { x: 0.75, y: 0 },
-  desktop: { x: 0.5, y: 0 },
-};
-
 const FirstVideoTrigger = () => {
   const windowSize = useWindowSize();
-  const { setAnimationInstance, animate } = useScrollLottie();
+  const { videos, status } = useContext(GetMainVideosContext);
+
+  const { canvasRef, renderFrame } = useUpdateVideoOnScroll(
+    videos[0],
+    windowSize,
+    { x: 0.75, y: 0 }
+  );
 
   useEffect(() => {
     const { end: heroEnd } = ScrollTrigger.getById("hero")!;
 
     const trigger = ScrollTrigger.create({
       id: "first-vd",
-      start: heroEnd * 0.97,
+      start: heroEnd * 0.95,
       end: heroEnd + windowSize.height * 2,
-      scrub: 2,
+      scrub: 5,
       onUpdate: ({ progress }) => {
-        animate(progress);
+        renderFrame(~~(progress * ((videos[0]?.length || 1) - 1)), progress);
 
         gsap.set("#jason-first", {
           filter: `blur(${
-            (normalize(0, 0.2, progress) - 1) * -10
+            (normalize(0, 0.2, progress) - 1) * -100
           }px) brightness(${normalize(0, 0.3, progress)})`,
           opacity: progress >= 1 ? 0 : normalize(0, 0.3, progress),
         });
@@ -140,21 +142,10 @@ const FirstVideoTrigger = () => {
     return () => {
       trigger.kill(true);
     };
-  }, [windowSize, animate]);
+  }, [windowSize, videos]);
 
   return (
-    <ScrollLottie
-      id="jason-first"
-      src="/videos/jason-first.json"
-      containerClassName="will-change-[filter,opacity]"
-      setAnimationInstance={setAnimationInstance}
-      defaultImage={{
-        src: "/images/jason-first-poster.webp",
-        alt: "Jason embracing Lucia while looking into the distance.",
-        className: "lg:[object-position:center_top] [object-position:75%_top]",
-      }}
-      objectPosition={OBJECT_POSITION}
-    />
+    <VideoOnScroll id="jason-first" canvasRef={canvasRef} status={status} />
   );
 };
 

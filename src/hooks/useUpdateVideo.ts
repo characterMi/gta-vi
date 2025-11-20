@@ -8,6 +8,11 @@ export const useUpdateVideo = (
     let reqId: number | null = null;
     let shouldPlay = true;
 
+    (async () => {
+      await video?.play();
+      video?.pause();
+    })();
+
     const updateVideo = () => {
       if (currentTime.current <= 0 && video) {
         video.currentTime = 0;

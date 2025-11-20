@@ -52,7 +52,7 @@ const ComingSoon = ({ onLogoLoad }: { onLogoLoad: () => void }) => {
 
       {/* The real entrance message */}
       <div
-        className="entrance-message absolute top-0 left-0 w-full height-svh col-center"
+        className="entrance-message absolute top-0 left-0 w-full height-svh col-center overflow-hidden will-change-[mask-image]"
         style={{ gap: containerGap }}
       >
         <img

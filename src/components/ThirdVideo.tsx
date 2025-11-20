@@ -1,10 +1,11 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect } from "react";
-import { useScrollLottie } from "../hooks/useScrollLottie";
+import { useContext, useEffect } from "react";
+import { GetMainVideosContext } from "../constants";
+import { useUpdateVideoOnScroll } from "../hooks/useUpdateVideoOnScroll";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { normalize } from "../lib";
-import ScrollLottie from "./ScrollLottie";
+import VideoOnScroll from "./VideoOnScroll";
 
 const ThirdVideo = () => {
   return (
@@ -88,11 +89,15 @@ const ThirdVideo = () => {
   );
 };
 
-const OBJECT_POSITION = { x: 0.15, y: 0 };
-
 const ThirdVdTrigger = () => {
   const windowSize = useWindowSize();
-  const { setAnimationInstance, animate } = useScrollLottie();
+  const { videos, status } = useContext(GetMainVideosContext);
+
+  const { canvasRef, renderFrame } = useUpdateVideoOnScroll(
+    videos[1],
+    windowSize,
+    { x: [0.75, 0.4, 0.2, 0.15, 0.15], y: 0 }
+  );
 
   useEffect(() => {
     const trigger = ScrollTrigger.create({
@@ -100,9 +105,9 @@ const ThirdVdTrigger = () => {
       trigger: ".third-vd-wrapper",
       start: "top center",
       end: "+=220%",
-      scrub: 2,
+      scrub: 5,
       onUpdate: ({ progress }) => {
-        animate(progress);
+        renderFrame(~~(progress * ((videos[1]?.length || 1) - 1)), progress);
 
         gsap.set("#lucia-first", {
           opacity: progress >= 1 || progress <= 0 ? 0 : 1,
@@ -123,20 +128,10 @@ const ThirdVdTrigger = () => {
     return () => {
       trigger.kill(true);
     };
-  }, [windowSize, animate]);
+  }, [windowSize, videos]);
 
   return (
-    <ScrollLottie
-      id="lucia-first"
-      objectPosition={OBJECT_POSITION}
-      src="/videos/lucia-first.json"
-      setAnimationInstance={setAnimationInstance}
-      defaultImage={{
-        src: "/images/lucia-first-poster.webp",
-        alt: "Lucia hugging Jason near a busy street.",
-        className: "[object-position:15%_top]",
-      }}
-    />
+    <VideoOnScroll id="lucia-first" canvasRef={canvasRef} status={status} />
   );
 };
 

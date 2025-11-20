@@ -5,7 +5,8 @@ export const calculateMaskAnimationProps = () => {
   const maskDestinationRect = maskDestinationEl.getBoundingClientRect();
   const maskDimensions = logoMask.getBBox();
 
-  const logoScaleFactor = maskDestinationRect.width / maskDimensions.width;
+  const logoScaleFactor =
+    (maskDestinationRect.width / maskDimensions.width) * 0.993;
 
   const fromX =
     window.innerWidth / 2 - (maskDimensions.width / 1.147) * logoScaleFactor;
@@ -13,9 +14,9 @@ export const calculateMaskAnimationProps = () => {
     window.innerHeight / 2 - (maskDimensions.height / 1.35) * logoScaleFactor;
 
   const toX =
-    maskDestinationRect.left - (maskDimensions.width / 2.39) * logoScaleFactor;
+    maskDestinationRect.left - (maskDimensions.width / 2.41) * logoScaleFactor;
   const toY =
-    maskDestinationRect.top - (maskDimensions.height / 5.79) * logoScaleFactor;
+    maskDestinationRect.top - (maskDimensions.height / 6.5) * logoScaleFactor;
 
   return {
     setLogoMaskTransform: (maskX?: number, maskY?: number, scale?: number) => {

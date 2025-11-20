@@ -5,3 +5,5 @@ type Image = {
   height: number;
   objectPosition: string;
 };
+
+type ImageBundleLoaderStatus = "loading" | "error" | "loaded";

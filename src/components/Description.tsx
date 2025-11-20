@@ -5,7 +5,7 @@ const Description = () => {
     Math.min(window.innerWidth / 22, window.innerHeight / 22) + "px";
 
   return (
-    <div className="absolute top-0 left-0 w-full h-full description-container">
+    <div className="absolute top-0 left-0 w-full h-full description-container overflow-hidden will-change-[mask-image]">
       <div
         className="max-w-[80%] sm:max-w-[70%] description gradient-title flex flex-col justify-center h-full mx-auto text-left leading-[1.8]"
         style={{ textTransform: "none" }}

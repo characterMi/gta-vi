@@ -9,6 +9,11 @@ export const WindowSizeContext = createContext({
   setNewWindowSize: () => {},
 });
 
+export const GetMainVideosContext = createContext({
+  status: "loading" as ImageBundleLoaderStatus,
+  videos: [] as ImageBitmap[][],
+});
+
 export const heroScrollAnimation = ({
   fromX,
   fromY,

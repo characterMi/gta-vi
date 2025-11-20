@@ -16,7 +16,7 @@ const SecondVideo = () => {
       y: "-10%",
       scrollTrigger: {
         trigger: ".jason-sec-image-container",
-        start: "top bottom",
+        start: "top top",
         end: "bottom top",
         scrub: true,
       },
@@ -24,7 +24,7 @@ const SecondVideo = () => {
   }, []);
 
   return (
-    <div className="second-vd-wrapper pt-[120vh] relative overflow-hidden">
+    <div className="second-vd-wrapper pt-[120vh] relative">
       <SecondVdTrigger videoRef={videoRef} />
 
       <video
@@ -38,22 +38,25 @@ const SecondVideo = () => {
 
       <div className="relative z-2 flex flex-col md:flex-row-reverse md:items-end md:justify-center">
         <div className="max-w-3/5 ml-[13vw] mb-[15vw] md:w-[43vw] md:mb-0 md:ml-[2vw] md:mr-auto jason-sec-image-container translate-y-[5%]">
-          <h2 className="text-yellow text-[13vw] md:text-[7vw] uppercase leading-[0.9] font-long font-black mb-[18vw] relative md:w-[56.5vw] md:ml-[-35vw]">
-            If anything happens, <br className="hidden md:block" /> I'm right
-            behind you.
-            <span
-              className="absolute top-[2.6%] md:top-[5%] right-full rotate-180"
-              aria-hidden
-            >
-              ,,
-            </span>
-            <span
-              className="absolute bottom-[16%] md:bottom-[32.5%] right-[5%]"
-              aria-hidden
-            >
-              ,,
-            </span>
-          </h2>
+          <div className="mb-[18vw] md:w-[56.5vw] md:ml-[-35vw] h-screen">
+            <h2 className="text-yellow text-[13vw] md:text-[7vw] uppercase leading-[0.9] font-long font-black sticky top-[80%] -translate-y-[80%] lg:top-[70%] lg:-translate-y-[70%]">
+              If anything happens, <br className="hidden md:block" /> I'm right
+              behind you.
+              <span
+                className="absolute top-[3%] md:top-[5%] right-full rotate-180"
+                aria-hidden
+              >
+                ,,
+              </span>
+              <span
+                className="absolute bottom-[15.5%] md:bottom-[32.5%] right-[5%]"
+                aria-hidden
+              >
+                ,,
+              </span>
+            </h2>
+          </div>
+
           <h3 className="text-pink-light text-[7.5vw] md:hidden leading-[1.2] font-bold mb-[5vw]">
             Another day in paradise, right?
           </h3>
