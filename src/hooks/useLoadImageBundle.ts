@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-export const useLoadImageBundle = (urls: string[], shouldLoad?: boolean) => {
+export const useLoadImageBundle = (
+  urls: string[],
+  shouldLoad: boolean = true
+) => {
   const [videos, setVideos] = useState<ImageBitmap[][]>([]);
   const [status, setStatus] = useState<ImageBundleLoaderStatus>("loading");
 
@@ -37,7 +40,7 @@ export const useLoadImageBundle = (urls: string[], shouldLoad?: boolean) => {
     return () => {
       worker.terminate();
     };
-  }, [shouldLoad, urls]);
+  }, [shouldLoad]);
 
   return { videos, status };
 };

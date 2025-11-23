@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useContext, useEffect } from "react";
-import { GetMainVideosContext } from "../constants";
+import { useEffect } from "react";
+import { useLoadImageBundle } from "../hooks/useLoadImageBundle";
 import { useUpdateVideoOnScroll } from "../hooks/useUpdateVideoOnScroll";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { normalize } from "../lib";
@@ -91,12 +91,12 @@ const ThirdVideo = () => {
 
 const ThirdVdTrigger = () => {
   const windowSize = useWindowSize();
-  const { videos, status } = useContext(GetMainVideosContext);
+  const { videos, status } = useLoadImageBundle(["/videos/lucia-first.bin"]);
 
   const { canvasRef, renderFrame } = useUpdateVideoOnScroll(
-    videos[1],
+    videos[0],
     windowSize,
-    { x: [0.75, 0.4, 0.2, 0.15, 0.15], y: 0 }
+    { x: [0.75, 0.5, 0.35, 0.25, 0.2, 0.15], y: 0 }
   );
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const ThirdVdTrigger = () => {
       end: "+=220%",
       scrub: 5,
       onUpdate: ({ progress }) => {
-        renderFrame(~~(progress * ((videos[1]?.length || 1) - 1)), progress);
+        renderFrame(progress);
 
         gsap.set("#lucia-first", {
           opacity: progress >= 1 || progress <= 0 ? 0 : 1,
@@ -117,9 +117,13 @@ const ThirdVdTrigger = () => {
           opacity: (normalize(0, 0.1, progress) - 1) * -1,
         });
 
-        if (progress >= 0.8) {
+        gsap.set("#lucia-first-backdrop", {
+          opacity: normalize(0.6, 0.9, progress),
+        });
+
+        if (progress >= 0.85) {
           gsap.set(".vd-section-bg", {
-            opacity: normalize(0.9, 1, progress),
+            opacity: normalize(0.85, 1, progress),
           });
         }
       },
@@ -131,7 +135,18 @@ const ThirdVdTrigger = () => {
   }, [windowSize, videos]);
 
   return (
-    <VideoOnScroll id="lucia-first" canvasRef={canvasRef} status={status} />
+    <VideoOnScroll
+      id="lucia-first"
+      imageProps={{
+        alt: "Lucia hugging Jason near a busy street.",
+        src: "/images/lucia-first-poster.webp",
+        className: "[object-position:15%_0%]",
+        loading: "eager",
+      }}
+      canvasRef={canvasRef}
+      status={status}
+      backdropClassName="bg-[radial-gradient(circle_at_30%_20%,transparent_0%,#111117_50%)]"
+    />
   );
 };
 

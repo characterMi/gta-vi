@@ -38,8 +38,8 @@ export const useUpdateVideoOnScroll = (
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const context = useRef<CanvasRenderingContext2D>(null);
 
-  const renderFrame = (index: number, progress: number) => {
-    const img = frames?.[index];
+  const renderFrame = (progress: number) => {
+    const img = frames?.[~~(progress * ((frames?.length || 1) - 1))];
 
     if (!img) return;
 
@@ -80,7 +80,7 @@ export const useUpdateVideoOnScroll = (
   }, [windowSize]);
 
   useEffect(() => {
-    context.current = canvasRef.current!.getContext("2d");
+    context.current = canvasRef.current?.getContext("2d") ?? null;
   }, []);
 
   return {

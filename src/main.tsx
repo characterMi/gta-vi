@@ -5,7 +5,6 @@ import App from "./App.tsx";
 import WindowSizeContextProvider from "./providers/WindowSizeContext";
 
 import "./index.css";
-import GetMainVideosContextProvider from "./providers/GetMainVideosContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -18,9 +17,7 @@ createRoot(document.getElementById("root")!).render(
       }}
     >
       <WindowSizeContextProvider>
-        <GetMainVideosContextProvider>
-          <App />
-        </GetMainVideosContextProvider>
+        <App />
       </WindowSizeContextProvider>
     </ReactLenis>
   </StrictMode>

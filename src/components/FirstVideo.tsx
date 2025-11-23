@@ -1,8 +1,8 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useContext, useEffect } from "react";
-import { GetMainVideosContext } from "../constants";
+import { useEffect } from "react";
+import { useLoadImageBundle } from "../hooks/useLoadImageBundle";
 import { useUpdateVideoOnScroll } from "../hooks/useUpdateVideoOnScroll";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { normalize } from "../lib";
@@ -107,7 +107,7 @@ const FirstVideo = () => {
 
 const FirstVideoTrigger = () => {
   const windowSize = useWindowSize();
-  const { videos, status } = useContext(GetMainVideosContext);
+  const { videos, status } = useLoadImageBundle(["/videos/jason-first.bin"]);
 
   const { canvasRef, renderFrame } = useUpdateVideoOnScroll(
     videos[0],
@@ -124,7 +124,7 @@ const FirstVideoTrigger = () => {
       end: heroEnd + windowSize.height * 2,
       scrub: 5,
       onUpdate: ({ progress }) => {
-        renderFrame(~~(progress * ((videos[0]?.length || 1) - 1)), progress);
+        renderFrame(progress);
 
         gsap.set("#jason-first", {
           filter: `blur(${
@@ -133,8 +133,12 @@ const FirstVideoTrigger = () => {
           opacity: progress >= 1 ? 0 : normalize(0, 0.3, progress),
         });
 
+        gsap.set("#jason-first-backdrop", {
+          opacity: normalize(0.4, 0.9, progress),
+        });
+
         gsap.set(".vd-section-bg", {
-          opacity: normalize(0.75, 1, progress),
+          opacity: normalize(0.85, 1, progress),
         });
       },
     });
@@ -145,7 +149,18 @@ const FirstVideoTrigger = () => {
   }, [windowSize, videos]);
 
   return (
-    <VideoOnScroll id="jason-first" canvasRef={canvasRef} status={status} />
+    <VideoOnScroll
+      id="jason-first"
+      imageProps={{
+        alt: "Jason embracing Lucia while looking into the distance.",
+        src: "/images/jason-first-poster.webp",
+        className: "[object-position:75%_0%]",
+        loading: "eager",
+      }}
+      backdropClassName="bg-[radial-gradient(circle_at_50%_20%,transparent_0%,#111117_50%)] md:bg-[radial-gradient(circle_at_75%_20%,transparent_0%,#111117_50%)]"
+      canvasRef={canvasRef}
+      status={status}
+    />
   );
 };
 

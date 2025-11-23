@@ -2,16 +2,27 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
-import { useUpdateVideo } from "../hooks/useUpdateVideo";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { lerp, normalize } from "../lib";
 import CharacterImage from "./CharacterImage";
 import ImageGallery from "./ImageGallery";
+import Video from "./Video";
 
 const SecondVideo = () => {
+  const currentTime = useRef(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useGSAP(() => {
+    gsap.to(".second-vd-heading", {
+      opacity: 1,
+      scrollTrigger: {
+        trigger: ".second-vd-heading-container",
+        start: "top bottom",
+        end: "+=50%",
+        scrub: true,
+      },
+    });
+
     gsap.to(".jason-sec-image-container", {
       y: "-10%",
       scrollTrigger: {
@@ -25,21 +36,22 @@ const SecondVideo = () => {
 
   return (
     <div className="second-vd-wrapper pt-[120vh] relative">
-      <SecondVdTrigger videoRef={videoRef} />
+      <SecondVdTrigger currentTime={currentTime} videoRef={videoRef} />
 
-      <video
-        ref={videoRef}
-        muted
-        playsInline
-        aria-hidden
+      <Video
+        id="jason-second"
         src="/videos/jason-second.mp4"
-        className="second-vd size-full fixed top-0 left-0 object-cover lg:[object-position:50%_center] [object-position:65%_center] hidden scale-110"
+        label="Jason pointing a gun to someone."
+        videoClassName="lg:[object-position:50%_center] [object-position:65%_center]"
+        videoRef={videoRef}
+        currentTime={currentTime}
+        backdropClassName="bg-[radial-gradient(circle_at_60%_20%,transparent_0%,#111117_50%)]"
       />
 
       <div className="relative z-2 flex flex-col md:flex-row-reverse md:items-end md:justify-center">
         <div className="max-w-3/5 ml-[13vw] mb-[15vw] md:w-[43vw] md:mb-0 md:ml-[2vw] md:mr-auto jason-sec-image-container translate-y-[5%]">
-          <div className="mb-[18vw] md:w-[56.5vw] md:ml-[-35vw] h-screen">
-            <h2 className="text-yellow text-[13vw] md:text-[7vw] uppercase leading-[0.9] font-long font-black sticky top-[80%] -translate-y-[80%] lg:top-[70%] lg:-translate-y-[70%]">
+          <div className="mb-[18vw] md:w-[56.5vw] md:ml-[-35vw] h-screen second-vd-heading-container">
+            <h2 className="text-yellow text-[13vw] md:text-[7vw] uppercase leading-[0.9] font-long font-black sticky top-[80%] -translate-y-[80%] lg:top-[70%] lg:-translate-y-[70%] second-vd-heading opacity-0">
               If anything happens, <br className="hidden md:block" /> I'm right
               behind you.
               <span
@@ -134,14 +146,13 @@ const SecondVideo = () => {
 };
 
 const SecondVdTrigger = ({
+  currentTime,
   videoRef,
 }: {
+  currentTime: React.RefObject<number>;
   videoRef: React.RefObject<HTMLVideoElement | null>;
 }) => {
-  const currentTime = useRef(0);
   const windowSize = useWindowSize();
-
-  useUpdateVideo(currentTime, videoRef.current);
 
   useEffect(() => {
     const trigger = ScrollTrigger.create({
@@ -161,29 +172,27 @@ const SecondVdTrigger = ({
           });
         }
 
+        gsap.set("#jason-second", {
+          opacity: progress >= 1 || progress <= 0 ? 0 : 1,
+        });
+
         currentTime.current =
           normalize(0, 0.6, progress) * (videoRef.current?.duration || 0);
 
-        gsap.set(".second-vd", {
-          scale: lerp(1.1, 1, normalize(0.6, 1, progress)),
+        gsap.set("#jason-second-backdrop", {
+          opacity: normalize(0.6, 1, progress),
         });
 
-        if (progress >= 1 || progress <= 0) {
-          gsap.set(".second-vd", {
-            display: "none",
-          });
-        } else {
-          gsap.set(".second-vd", {
-            display: "block",
-          });
-        }
+        gsap.set("#jason-second-vd", {
+          scale: lerp(1.1, 1, normalize(0.6, 1, progress)),
+        });
       },
     });
 
     return () => {
       trigger.kill(true);
     };
-  }, [windowSize, videoRef]);
+  }, [windowSize, videoRef, currentTime]);
 
   return null;
 };

@@ -6,8 +6,8 @@ import { useInsertionEffect, useRef, useState } from "react";
 
 import Hero from "./sections/Hero";
 import Loading from "./sections/Loading";
+import Videos from "./sections/MainCharactersIntro";
 import Navbar from "./sections/Navbar";
-import Videos from "./sections/Videos";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(Draggable);
