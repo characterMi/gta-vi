@@ -105,7 +105,7 @@ const ThirdVdTrigger = () => {
       trigger: ".third-vd-wrapper",
       start: "top center",
       end: "+=220%",
-      scrub: 5,
+      scrub: true,
       onUpdate: ({ progress }) => {
         renderFrame(progress);
 

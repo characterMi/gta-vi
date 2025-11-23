@@ -1,7 +1,8 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useUpdateVideo } from "../hooks/useUpdateVideo";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { lerp, normalize } from "../lib";
 import CharacterImage from "./CharacterImage";
@@ -9,9 +10,6 @@ import ImageGallery from "./ImageGallery";
 import Video from "./Video";
 
 const SecondVideo = () => {
-  const currentTime = useRef(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   useGSAP(() => {
     gsap.to(".second-vd-heading", {
       opacity: 1,
@@ -36,22 +34,12 @@ const SecondVideo = () => {
 
   return (
     <div className="second-vd-wrapper pt-[120vh] relative">
-      <SecondVdTrigger currentTime={currentTime} videoRef={videoRef} />
-
-      <Video
-        id="jason-second"
-        src="/videos/jason-second.mp4"
-        label="Jason pointing a gun to someone."
-        videoClassName="lg:[object-position:50%_center] [object-position:65%_center]"
-        videoRef={videoRef}
-        currentTime={currentTime}
-        backdropClassName="bg-[radial-gradient(circle_at_60%_20%,transparent_0%,#111117_50%)]"
-      />
+      <SecondVdTrigger />
 
       <div className="relative z-2 flex flex-col md:flex-row-reverse md:items-end md:justify-center">
-        <div className="max-w-3/5 ml-[13vw] mb-[15vw] md:w-[43vw] md:mb-0 md:ml-[2vw] md:mr-auto jason-sec-image-container translate-y-[5%]">
-          <div className="mb-[18vw] md:w-[56.5vw] md:ml-[-35vw] h-screen second-vd-heading-container">
-            <h2 className="text-yellow text-[13vw] md:text-[7vw] uppercase leading-[0.9] font-long font-black sticky top-[80%] -translate-y-[80%] lg:top-[70%] lg:-translate-y-[70%] second-vd-heading opacity-0">
+        <div className="max-w-3/5 ml-[13vw] mb-[15vw] md:w-[43vw] xl:w-[35vw] md:mb-0 md:ml-[2vw] md:mr-auto xl:ml-[1vw] jason-sec-image-container translate-y-[5%]">
+          <div className="mb-[18vw] md:w-[56.5vw] xl:w-[40vw] md:ml-[-35vw] xl:mb-[24vw] h-screen second-vd-heading-container">
+            <h2 className="text-yellow text-[13vw] md:text-[7vw] xl:text-[5vw] uppercase leading-[0.9] font-long font-black sticky top-[80%] -translate-y-[80%] lg:top-[70%] lg:-translate-y-[70%] second-vd-heading opacity-0">
               If anything happens, <br className="hidden md:block" /> I'm right
               behind you.
               <span
@@ -72,7 +60,7 @@ const SecondVideo = () => {
           <h3 className="text-pink-light text-[7.5vw] md:hidden leading-[1.2] font-bold mb-[5vw]">
             Another day in paradise, right?
           </h3>
-          <p className="text-white text-[4vw] md:text-[2vw] md:leading-[1.15] font-round-bold md:mb-[10vw] md:max-w-[66%] mx-auto">
+          <p className="text-white text-[4vw] md:text-[2vw] xl:text-[1.5vw] md:leading-[1.15] font-round-bold md:mb-[10vw] md:max-w-[66%] xl:max-w-[60%] mx-auto">
             Meeting Lucia could be the best or worst thing to ever happen to
             him. Jason knows how he'd like it to turn out but right now, it's
             hard to tell.
@@ -81,7 +69,7 @@ const SecondVideo = () => {
           <CharacterImage
             width={43}
             height={75}
-            className="mr-auto hidden mb-[3vw] md:block"
+            className="mr-auto hidden mb-[3vw] md:block xl:!w-[35vw] xl:!h-[60vw]"
             alt="Jason outside on the street leaning against a tree while looking at his phone."
             src="/images/jason-4.webp"
             objectPosition="25% center"
@@ -89,14 +77,14 @@ const SecondVideo = () => {
         </div>
 
         <div className="hidden md:flex flex-col w-[50vw]">
-          <h3 className="text-pink-light text-[3.5vw] leading-[1.2] font-bold mb-[7vw] w-1/2 ml-[18vw]">
+          <h3 className="text-pink-light text-[3.5vw] xl:text-[2.5vw] leading-[1.2] font-bold mb-[7vw] w-1/2 ml-[18vw]">
             Another day in paradise, right?
           </h3>
 
           <CharacterImage
             width={50}
             height={50}
-            className="mr-auto mb-[2vw]"
+            className="mr-auto mb-[2vw] xl:mb-[1vw]"
             alt="Jason holding and aiming an automatic weapon."
             src="/images/jason-5.webp"
             objectPosition="10% center"
@@ -105,7 +93,7 @@ const SecondVideo = () => {
           <CharacterImage
             width={35}
             height={35}
-            className="ml-auto"
+            className="ml-auto xl:!size-[30vw]"
             alt="Jason and Cal on a boat. Jason is holding a fishing rod and Cal is holding binoculars up to his eyes."
             src="/images/jason-6.webp"
             objectPosition="10% center"
@@ -145,14 +133,9 @@ const SecondVideo = () => {
   );
 };
 
-const SecondVdTrigger = ({
-  currentTime,
-  videoRef,
-}: {
-  currentTime: React.RefObject<number>;
-  videoRef: React.RefObject<HTMLVideoElement | null>;
-}) => {
+const SecondVdTrigger = () => {
   const windowSize = useWindowSize();
+  const { videoRef, currentTime } = useUpdateVideo();
 
   useEffect(() => {
     const trigger = ScrollTrigger.create({
@@ -160,7 +143,7 @@ const SecondVdTrigger = ({
       trigger: ".second-vd-wrapper",
       start: "top center",
       end: "+=175%",
-      scrub: 2,
+      scrub: true,
       onUpdate: ({ progress }) => {
         gsap.set(".vd-section-bg", {
           opacity: (normalize(0, 0.1, progress) - 1) * -1,
@@ -194,7 +177,17 @@ const SecondVdTrigger = ({
     };
   }, [windowSize, videoRef, currentTime]);
 
-  return null;
+  return (
+    <Video
+      id="jason-second"
+      src="/videos/jason-second.mp4"
+      label="Jason pointing a gun to someone."
+      videoClassName="lg:[object-position:50%_center] [object-position:65%_center]"
+      backdropClassName="bg-[radial-gradient(circle_at_60%_20%,transparent_0%,#111117_50%)]"
+      videoRef={videoRef}
+      currentTime={currentTime}
+    />
+  );
 };
 
 export default SecondVideo;

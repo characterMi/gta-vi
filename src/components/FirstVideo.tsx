@@ -12,10 +12,10 @@ import VideoOnScroll from "./VideoOnScroll";
 
 const FirstVideo = () => {
   useGSAP(() => {
-    gsap.to(".jason-image-container", {
-      y: "-5%",
+    gsap.to(".jason-first-image-container", {
+      y: "-10%",
       scrollTrigger: {
-        trigger: ".jason-image-container",
+        trigger: ".jason-first-image-container",
         start: "top bottom",
         end: "bottom top",
         scrub: true,
@@ -29,13 +29,13 @@ const FirstVideo = () => {
 
       <div className="relative z-2 flex flex-col items-center md:flex-row md:items-start md:justify-center">
         <div className="max-w-4/5 mb-[15vw] mx-auto md:w-[36vw] md:mb-0 md:mx-0">
-          <h2 className="text-yellow text-[20vw] md:text-[8vw] uppercase leading-[0.9] font-long font-black mb-[18vw] md:mb-[6vw]">
+          <h2 className="text-yellow text-[20vw] md:text-[8vw] xl:text-[7vw] uppercase leading-[0.9] font-long font-black mb-[18vw] md:mb-[6vw]">
             Jason <br className="md:hidden" /> Duval
           </h2>
-          <h3 className="text-pink-light text-[8vw] md:text-[3.5vw] leading-[1.2] font-bold mb-[5vw] md:mb-[2vw] md:max-w-[70%]">
+          <h3 className="text-pink-light text-[8vw] md:text-[3.5vw] xl:text-[3vw] leading-[1.2] font-bold mb-[5vw] md:mb-[2vw] md:max-w-[70%] lg:max-w-[80%]">
             Jason wants an easy life, but things just keep getting harder.
           </h3>
-          <h4 className="text-white text-[4.5vw] md:text-[2vw] md:leading-[1.15] font-round-bold md:mb-[10vw] md:max-w-[70%]">
+          <h4 className="text-white text-[4.5vw] md:text-[2vw] xl:text-[1.75vw] md:leading-[1.15] font-round-bold md:mb-[10vw] md:max-w-[70%] lg:max-w-[80%]">
             Jason grew up around grifters and crooks. After a stint in the Army
             trying to shake off his troubled teens, he found himself in the Keys
             doing what he knows best, working for local drug runners. It might
@@ -52,7 +52,7 @@ const FirstVideo = () => {
           />
         </div>
 
-        <div className="hidden md:flex flex-col w-[40vw] ml-[2vw] mt-[16vw] jason-image-container translate-y-[5%]">
+        <div className="hidden md:flex flex-col w-[40vw] ml-[2vw] mt-[16vw] jason-first-image-container translate-y-[5%]">
           <CharacterImage
             width={51}
             height={51}
@@ -122,7 +122,7 @@ const FirstVideoTrigger = () => {
       id: "first-vd",
       start: heroEnd * 0.95,
       end: heroEnd + windowSize.height * 2,
-      scrub: 5,
+      scrub: true,
       onUpdate: ({ progress }) => {
         renderFrame(progress);
 

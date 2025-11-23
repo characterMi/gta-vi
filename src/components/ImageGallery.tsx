@@ -35,20 +35,6 @@ const ImageGallery = ({ name, className, images }: Props) => {
         inertia: true,
         edgeResistance: 0.6,
         overshootTolerance: 16,
-        onDrag: function () {
-          const slideWidth = this.target.scrollWidth / images.length;
-
-          const minX = slideWidth * -0.9;
-          const maxX = slideWidth * -0.1;
-
-          if (this.x > maxX) {
-            this.x = maxX + (this.x - maxX) * 0.2;
-          }
-
-          if (this.x < minX) {
-            this.x = minX - (minX - this.x) * 0.2;
-          }
-        },
         onRelease: function () {
           const slideWidth = this.target.scrollWidth / images.length;
 

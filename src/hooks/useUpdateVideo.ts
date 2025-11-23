@@ -1,29 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export const useUpdateVideo = (
-  currentTime: React.RefObject<number>,
-  video: HTMLVideoElement | null
-) => {
+export const useUpdateVideo = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const currentTime = useRef(0);
+
   useEffect(() => {
     let reqId: number | null = null;
-    let shouldPlay = true;
 
-    video?.play().then(() => video?.pause());
+    videoRef.current?.play().then(() => videoRef.current?.pause());
 
     const updateVideo = () => {
-      if (currentTime.current <= 0 && video) {
-        video.currentTime = 0;
-        shouldPlay = true;
+      if (currentTime.current <= 0 && videoRef.current) {
+        videoRef.current.currentTime = 0;
       }
 
-      if (currentTime.current >= (video?.duration || 0)) shouldPlay = false;
-
-      if (shouldPlay) {
-        if (currentTime.current > (video?.currentTime || 0)) {
-          video?.play();
-        } else {
-          video?.pause();
+      if (currentTime.current > (videoRef.current?.currentTime || 0)) {
+        // the 0.05 or 50ms is to prevent the video from playing when it's about to end
+        if (currentTime.current < (videoRef.current?.duration || 0) - 0.05) {
+          videoRef.current?.play();
         }
+      } else {
+        videoRef.current?.pause();
       }
 
       reqId = requestAnimationFrame(updateVideo);
@@ -34,5 +31,10 @@ export const useUpdateVideo = (
     return () => {
       if (reqId) cancelAnimationFrame(reqId);
     };
-  }, [video, currentTime]);
+  }, []);
+
+  return {
+    videoRef,
+    currentTime,
+  };
 };
