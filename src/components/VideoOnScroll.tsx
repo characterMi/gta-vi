@@ -46,6 +46,7 @@ const VideoOnScroll = ({
 
     <div
       className={twMerge("abs-full", backdropClassName)}
+      aria-hidden
       id={id + "-backdrop"}
     />
   </div>

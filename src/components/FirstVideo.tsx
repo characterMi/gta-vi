@@ -82,7 +82,7 @@ const FirstVideo = () => {
         />
 
         <ImageGallery
-          name="json"
+          name="jason"
           images={[
             {
               src: "/images/jason-2.webp",

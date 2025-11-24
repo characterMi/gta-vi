@@ -110,7 +110,7 @@ const SecondVideo = () => {
         />
 
         <ImageGallery
-          name="json-sec"
+          name="jason-sec"
           images={[
             {
               src: "/images/jason-5.webp",

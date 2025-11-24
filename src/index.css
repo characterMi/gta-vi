@@ -123,16 +123,6 @@ canvas {
   .hero-image {
     @apply size-full object-cover;
   }
-  .lucia-content {
-    @apply flex justify-center items-center;
-
-    h1 {
-      @apply relative font-round-bold md:text-9xl text-6xl md:leading-28;
-    }
-    h2 {
-      @apply relative font-round-bold md:text-4xl text-xl max-w-md lg:mt-0 mt-10;
-    }
-  }
   .post-card {
     @apply relative flex justify-center items-center pb-80 shadow-2xl;
 
