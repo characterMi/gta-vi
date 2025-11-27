@@ -1,5 +1,6 @@
 import FirstVideo from "../components/FirstVideo";
 import FourthVideo from "../components/FourthVideo";
+import MainCharactersOutro from "../components/MainCharactersOutro";
 import SecondVideo from "../components/SecondVideo";
 import ThirdVideo from "../components/ThirdVideo";
 
@@ -15,6 +16,7 @@ const Videos = () => {
       <SecondVideo />
       <ThirdVideo />
       <FourthVideo />
+      <MainCharactersOutro />
     </section>
   );
 };
