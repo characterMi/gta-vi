@@ -17,14 +17,14 @@ const MainCharactersOutro = () => {
 
   return (
     <div
-      className="mt-[15vw] w-full height-svh z-1 relative"
+      className="mt-[15vw] w-full height-svh md:!h-[110vh] z-1 relative"
       style={{ clipPath: "polygon(0 5%, 100% 5%, 100% 90%, 0 95%)" }}
     >
       <Image
         src={{
           blur: "/images/main-characters-outro/blur.png",
-          mobile: "/images/main-characters-outro/mobile.webp",
-          desktop: "/images/main-characters-outro/desktop.webp",
+          mobile: "/images/main-characters-outro/main.webp",
+          desktop: "/images/main-characters-outro/main.webp",
         }}
         alt="Jason and Lucia lying on a bed while holding hands."
         className="[object-position:30%_0%]"
