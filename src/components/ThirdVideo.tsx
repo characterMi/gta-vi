@@ -44,7 +44,11 @@ const ThirdVideo = () => {
             height={50}
             className="mb-[2vw] lg:mb-[1vw]"
             alt="Lucia punching a heavy bag in a gym."
-            src="/images/lucia-1.webp"
+            src={{
+              desktop: "/images/lucia-1/desktop.webp",
+              mobile: "/images/lucia-1/mobile.webp",
+              blur: "/images/lucia-1/blur.png",
+            }}
             objectPosition="85% center"
           />
 
@@ -53,7 +57,11 @@ const ThirdVideo = () => {
             height={60}
             className="ml-auto lg:!w-[30vw] lg:!h-[55vw]"
             alt="Inside a jail, Lucia and another woman are handcuffed and wearing orange jumpsuits as they walk by a window where another woman watches through the glass. An officer stands nearby."
-            src="/images/lucia-2.webp"
+            src={{
+              desktop: "/images/lucia-2/desktop.webp",
+              mobile: "/images/lucia-2/mobile.webp",
+              blur: "/images/lucia-2/blur.png",
+            }}
             objectPosition="60% center"
           />
         </div>
@@ -64,13 +72,13 @@ const ThirdVideo = () => {
               Lucia Caminos
             </h2>
             <h3 className="flex text-pink-light text-[7.5vw] md:text-[3.5vw] lg:text-[2.7vw] leading-[1.2] font-bold mb-[5vw] md:mb-[2vw] md:max-w-[70%] md:mx-auto">
-              Lucia&apos;s father taught her to fight as soon as she could walk.
+              Lucia's father taught her to fight as soon as she could walk.
               <span className="hidden lg:block size-full" aria-hidden />
             </h3>
             <h4 className="flex text-white text-[4.5vw] md:text-[2vw] lg:text-[1.5vw] leading-[1.15] font-round-bold md:mb-[10vw] md:max-w-[70%] md:mx-auto">
               Life has been coming at her swinging ever since. Fighting for her
               family landed her in the Leonida Penitentiary. Sheer luck got her
-              out. Lucia&apos;s learned her lesson — only smart moves from here.
+              out. Lucia's learned her lesson — only smart moves from here.
               <span className="hidden lg:block size-full" aria-hidden />
             </h4>
           </div>
@@ -80,7 +88,11 @@ const ThirdVideo = () => {
             height={97}
             className="ml-auto mb-[3vw] md:hidden"
             alt="Lucia punching a heavy bag in a gym."
-            src="/images/lucia-1.webp"
+            src={{
+              desktop: "/images/lucia-1/desktop.webp",
+              mobile: "/images/lucia-1/mobile.webp",
+              blur: "/images/lucia-1/blur.png",
+            }}
             objectPosition="85% center"
           />
 
@@ -89,7 +101,11 @@ const ThirdVideo = () => {
             height={43}
             className="mr-auto hidden md:block"
             alt="Lucia in sunglasses resting her arms on the side of a pool with a tropical drink beside her and a phone on the other side."
-            src="/images/lucia-3.webp"
+            src={{
+              desktop: "/images/lucia-3/desktop.webp",
+              mobile: "/images/lucia-3/mobile.webp",
+              blur: "/images/lucia-3/blur.png",
+            }}
             objectPosition="45% center"
           />
 
@@ -97,14 +113,22 @@ const ThirdVideo = () => {
             name="lucia"
             images={[
               {
-                src: "/images/lucia-2.webp",
+                src: {
+                  desktop: "/images/lucia-2/desktop.webp",
+                  mobile: "/images/lucia-2/mobile.webp",
+                  blur: "/images/lucia-2/blur.png",
+                },
                 alt: "Inside a jail, Lucia and another woman are handcuffed and wearing orange jumpsuits as they walk by a window where another woman watches through the glass. An officer stands nearby.",
                 width: 75,
                 height: 130,
                 objectPosition: "60% center",
               },
               {
-                src: "/images/lucia-3.webp",
+                src: {
+                  desktop: "/images/lucia-3/desktop.webp",
+                  mobile: "/images/lucia-3/mobile.webp",
+                  blur: "/images/lucia-3/blur.png",
+                },
                 alt: "Lucia in sunglasses resting her arms on the side of a pool with a tropical drink beside her and a phone on the other side.",
                 width: 75,
                 height: 130,
@@ -174,7 +198,10 @@ const ThirdVdTrigger = () => {
       id="lucia-first"
       imageProps={{
         alt: "Lucia hugging Jason near a busy street.",
-        src: "/images/lucia-first-poster.webp",
+        src: {
+          desktop: "/images/lucia-poster/desktop.webp",
+          mobile: "/images/lucia-poster/mobile.webp",
+        },
         className: "[object-position:15%_0%]",
         loading: "eager",
       }}

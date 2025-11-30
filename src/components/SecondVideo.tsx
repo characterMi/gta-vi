@@ -71,7 +71,11 @@ const SecondVideo = () => {
             height={75}
             className="mr-auto hidden mb-[3vw] md:block xl:!w-[35vw] xl:!h-[60vw]"
             alt="Jason outside on the street leaning against a tree while looking at his phone."
-            src="/images/jason-4.webp"
+            src={{
+              desktop: "/images/jason-4/desktop.webp",
+              mobile: "/images/jason-4/mobile.webp",
+              blur: "/images/jason-4/blur.png",
+            }}
             objectPosition="25% center"
           />
         </div>
@@ -86,7 +90,11 @@ const SecondVideo = () => {
             height={50}
             className="mr-auto mb-[2vw] xl:mb-[1vw]"
             alt="Jason holding and aiming an automatic weapon."
-            src="/images/jason-5.webp"
+            src={{
+              desktop: "/images/jason-5/desktop.webp",
+              mobile: "/images/jason-5/mobile.webp",
+              blur: "/images/jason-5/blur.png",
+            }}
             objectPosition="10% center"
           />
 
@@ -95,7 +103,11 @@ const SecondVideo = () => {
             height={35}
             className="ml-auto xl:!size-[30vw]"
             alt="Jason and Cal on a boat. Jason is holding a fishing rod and Cal is holding binoculars up to his eyes."
-            src="/images/jason-6.webp"
+            src={{
+              desktop: "/images/jason-6/desktop.webp",
+              mobile: "/images/jason-6/mobile.webp",
+              blur: "/images/jason-6/blur.png",
+            }}
             objectPosition="10% center"
           />
         </div>
@@ -105,7 +117,11 @@ const SecondVideo = () => {
           height={160}
           className="ml-auto mb-[3vw] md:hidden"
           alt="Jason outside on the street leaning against a tree while looking at his phone."
-          src="/images/jason-4.webp"
+          src={{
+            desktop: "/images/jason-4/desktop.webp",
+            mobile: "/images/jason-4/mobile.webp",
+            blur: "/images/jason-4/blur.png",
+          }}
           objectPosition="25% center"
         />
 
@@ -113,14 +129,22 @@ const SecondVideo = () => {
           name="jason-sec"
           images={[
             {
-              src: "/images/jason-5.webp",
+              src: {
+                desktop: "/images/jason-5/desktop.webp",
+                mobile: "/images/jason-5/mobile.webp",
+                blur: "/images/jason-5/blur.png",
+              },
               alt: "Jason holding and aiming an automatic weapon.",
               width: 75,
               height: 75,
               objectPosition: "10% center",
             },
             {
-              src: "/images/jason-6.webp",
+              src: {
+                desktop: "/images/jason-6/desktop.webp",
+                mobile: "/images/jason-6/mobile.webp",
+                blur: "/images/jason-6/blur.png",
+              },
               alt: "Jason and Cal on a boat. Jason is holding a fishing rod and Cal is holding binoculars up to his eyes.",
               width: 75,
               height: 75,

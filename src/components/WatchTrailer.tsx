@@ -3,16 +3,22 @@ import gsap from "gsap";
 import { twMerge } from "tailwind-merge";
 
 const WatchTrailer = ({
-  shouldRenderVerticalImages,
+  shouldRenderVerticalElements,
 }: {
-  shouldRenderVerticalImages: boolean;
+  shouldRenderVerticalElements: boolean;
 }) => {
   const svgHeight =
-    Math.max(window.innerWidth / 20, window.innerHeight / 10) + "px";
+    Math.max(window.innerWidth / 20, window.innerHeight / 10) *
+      (shouldRenderVerticalElements ? 1.8 : 1) +
+    "px";
   const fontSize =
-    Math.max(window.innerWidth / 20, window.innerHeight / 10) * 0.12 + "px";
+    Math.max(window.innerWidth / 20, window.innerHeight / 10) *
+      (shouldRenderVerticalElements ? 0.24 : 0.12) +
+    "px";
   const letterSpacing =
-    Math.max(window.innerWidth / 30, window.innerHeight / 30) * 0.12 + "px";
+    Math.max(window.innerWidth / 30, window.innerHeight / 30) *
+      (shouldRenderVerticalElements ? 0.17 : 0.1) +
+    "px";
 
   const arrowWidth =
     Math.max(window.innerWidth / 40, window.innerHeight / 30) + "px";
@@ -35,7 +41,7 @@ const WatchTrailer = ({
       <div
         className={twMerge(
           "watch-trailer absolute",
-          shouldRenderVerticalImages
+          shouldRenderVerticalElements
             ? "bottom-1/2 translate-y-1/2 left-[85%] -translate-x-[85%]"
             : "bottom-[5%] translate-y-[5%] left-1/2 -translate-x-1/2"
         )}

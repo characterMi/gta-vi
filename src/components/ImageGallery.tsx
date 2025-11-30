@@ -8,7 +8,7 @@ import CharacterImage from "./CharacterImage";
 type Props = {
   name: string;
   className?: string;
-  images: Image[];
+  images: CharacterImageProps[];
 };
 
 const ImageGallery = ({ name, className, images }: Props) => {
@@ -80,7 +80,7 @@ const ImageGallery = ({ name, className, images }: Props) => {
         style={{ width: images.length * 100 + "%" }}
       >
         {images.map((image) => (
-          <CharacterImage key={image.src} {...image} />
+          <CharacterImage key={image.src.desktop} {...image} />
         ))}
       </div>
 
@@ -90,7 +90,7 @@ const ImageGallery = ({ name, className, images }: Props) => {
       >
         {images.map((image, index) => (
           <span
-            key={image.src}
+            key={image.src.desktop}
             className={twMerge(
               "w-[2vw] h-[2vw] rounded-full transition-colors duration-300",
               activeIndex === index ? "bg-white" : "bg-white/10"

@@ -1,13 +1,13 @@
 import { twMerge } from "tailwind-merge";
+import Image from "./Image";
 
 const CharacterImage = ({
   width,
   height,
-  src,
-  alt,
   objectPosition,
   className,
-}: Image & { className?: string }) => {
+  ...imgProps
+}: CharacterImageProps) => {
   const svgSize = width / 15 + "vw";
 
   return (
@@ -17,12 +17,10 @@ const CharacterImage = ({
       aria-label="Click to view full image"
     >
       <div className="relative size-full group-active:scale-[0.97] group-focus-visible:scale-[0.97] md:group-hover:scale-[0.97] transition-transform duration-700 ease-in-out cursor-zoom-in">
-        <img
-          src={src}
-          alt={alt}
-          style={{ objectPosition: objectPosition }}
-          className="object-cover size-full"
-          loading="lazy"
+        <Image
+          {...imgProps}
+          containerClassName="size-full"
+          style={{ ...imgProps.style, objectPosition: objectPosition }}
         />
 
         <span

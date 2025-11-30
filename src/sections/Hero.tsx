@@ -16,7 +16,7 @@ const Hero = () => {
 
   const windowSize = useWindowSize();
 
-  const shouldRenderVerticalImages = windowSize.aspectRatio >= 2;
+  const shouldRenderVerticalElements = windowSize.aspectRatio >= 2;
   const heroSectionHeight = windowSize.aspectRatio * 10000;
 
   useEffect(() => {
@@ -45,7 +45,9 @@ const Hero = () => {
       <section className="overflow-hidden height-svh hero fixed top-0 left-0 w-full">
         <div className="abs-full hero-images-wrapper will-change-transform">
           <div className="hero-image-container scale-105 size-full">
-            <Images shouldRenderVerticalImages={shouldRenderVerticalImages} />
+            <Images
+              shouldRenderVerticalElements={shouldRenderVerticalElements}
+            />
           </div>
         </div>
 
@@ -55,7 +57,9 @@ const Hero = () => {
 
         <OpenTrailerDialog />
 
-        <WatchTrailer shouldRenderVerticalImages={shouldRenderVerticalImages} />
+        <WatchTrailer
+          shouldRenderVerticalElements={shouldRenderVerticalElements}
+        />
 
         <ComingSoon onLogoLoad={windowSize.setNewWindowSize} />
 
@@ -66,21 +70,21 @@ const Hero = () => {
 };
 
 const Images = ({
-  shouldRenderVerticalImages,
+  shouldRenderVerticalElements,
 }: {
-  shouldRenderVerticalImages: boolean;
+  shouldRenderVerticalElements: boolean;
 }) => {
   const isMobile = window.innerWidth <= 768;
 
   return (
     <>
       <img
-        src={isMobile ? "/images/hero-bg-mobile.webp" : "/images/hero-bg.webp"}
+        src={`/images/hero-bg/${isMobile ? "mobile" : "desktop"}.webp`}
         alt="Hero Image"
         className="hero-image"
       />
 
-      {shouldRenderVerticalImages ? (
+      {shouldRenderVerticalElements ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           version="1.1"
@@ -93,11 +97,7 @@ const Images = ({
         </svg>
       ) : (
         <img
-          src={
-            isMobile
-              ? "/images/hero-text-mobile.webp"
-              : "/images/hero-text.webp"
-          }
+          src={`/images/hero-text/${isMobile ? "mobile" : "desktop"}.webp`}
           alt="Grand Theft Auto VI"
           className="hero-image absolute top-0 hero-image-logo"
         />

@@ -47,7 +47,11 @@ const FirstVideo = () => {
             height={60}
             className="ml-auto hidden md:block"
             alt="Jason sitting on a motorcycle holding a handgun."
-            src="/images/jason-2.webp"
+            src={{
+              desktop: "/images/jason-2/desktop.webp",
+              mobile: "/images/jason-2/mobile.webp",
+              blur: "/images/jason-2/blur.png",
+            }}
             objectPosition="80% center"
           />
         </div>
@@ -58,7 +62,11 @@ const FirstVideo = () => {
             height={51}
             className="mb-[2vw] mr-auto"
             alt="Jason inside a car sitting behind the wheel looking into the distance."
-            src="/images/jason-1.webp"
+            src={{
+              desktop: "/images/jason-1/desktop.webp",
+              mobile: "/images/jason-1/mobile.webp",
+              blur: "/images/jason-1/blur.png",
+            }}
             objectPosition="5% center"
           />
 
@@ -67,7 +75,11 @@ const FirstVideo = () => {
             height={35}
             className="mr-auto"
             alt="Four men in a bar. In the foreground, Jason and Cal are at the bar with beers. In the background two men are looking their way."
-            src="/images/jason-3.webp"
+            src={{
+              desktop: "/images/jason-3/desktop.webp",
+              mobile: "/images/jason-3/mobile.webp",
+              blur: "/images/jason-3/blur.png",
+            }}
             objectPosition="42% center"
           />
         </div>
@@ -77,7 +89,11 @@ const FirstVideo = () => {
           height={97}
           className="ml-auto mb-[3vw] md:hidden"
           alt="Jason inside a car sitting behind the wheel looking into the distance."
-          src="/images/jason-1.webp"
+          src={{
+            desktop: "/images/jason-1/desktop.webp",
+            mobile: "/images/jason-1/mobile.webp",
+            blur: "/images/jason-1/blur.png",
+          }}
           objectPosition="5% center"
         />
 
@@ -85,14 +101,22 @@ const FirstVideo = () => {
           name="jason"
           images={[
             {
-              src: "/images/jason-2.webp",
+              src: {
+                desktop: "/images/jason-2/desktop.webp",
+                mobile: "/images/jason-2/mobile.webp",
+                blur: "/images/jason-2/blur.png",
+              },
               alt: "Jason sitting on a motorcycle holding a handgun.",
               width: 75,
               height: 130,
               objectPosition: "80% center",
             },
             {
-              src: "/images/jason-3.webp",
+              src: {
+                desktop: "/images/jason-3/desktop.webp",
+                mobile: "/images/jason-3/mobile.webp",
+                blur: "/images/jason-3/blur.png",
+              },
               alt: "Four men in a bar. In the foreground, Jason and Cal are at the bar with beers. In the background two men are looking their way.",
               width: 75,
               height: 130,
@@ -153,9 +177,12 @@ const FirstVideoTrigger = () => {
       id="jason-first"
       imageProps={{
         alt: "Jason embracing Lucia while looking into the distance.",
-        src: "/images/jason-first-poster.webp",
         className: "[object-position:75%_0%]",
         loading: "eager",
+        src: {
+          desktop: "/images/jason-poster/desktop.webp",
+          mobile: "/images/jason-poster/mobile.webp",
+        },
       }}
       backdropClassName="bg-[radial-gradient(circle_at_50%_20%,transparent_0%,#111117_50%)] md:bg-[radial-gradient(circle_at_75%_20%,transparent_0%,#111117_50%)]"
       canvasRef={canvasRef}

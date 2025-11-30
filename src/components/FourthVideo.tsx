@@ -57,7 +57,8 @@ const FourthVideo = () => {
           </div>
 
           <h3 className="text-pink-light text-[7.5vw] w-[70vw] mx-auto md:hidden leading-[1.2] font-bold mb-[5vw]">
-            A life with <br /> Jason could be <br /> her way out.
+            A life with <br aria-hidden /> Jason could be <br aria-hidden /> her
+            way out.
           </h3>
           <p className="text-white text-[4.5vw] md:text-[2vw] xl:text-[1.5vw] md:leading-[1.15] font-round-bold md:mb-[10vw] w-[70vw] md:w-[50%] xl:w-[45%] mx-auto xl:mx-0 xl:ml-auto xl:mr-[10vw]">
             Fresh out of prison and ready to change the odds in her favor,
@@ -69,7 +70,11 @@ const FourthVideo = () => {
             height={75}
             className="ml-auto hidden mb-[3vw] md:block xl:!w-[38vw] xl:!h-[64vw]"
             alt="Lucia crossing her arms while holding a phone is surrounded by people dancing and flashing lights."
-            src="/images/lucia-4.webp"
+            src={{
+              desktop: "/images/lucia-4/desktop.webp",
+              mobile: "/images/lucia-4/mobile.webp",
+              blur: "/images/lucia-4/blur.png",
+            }}
             objectPosition="60% center"
           />
         </div>
@@ -84,7 +89,11 @@ const FourthVideo = () => {
             height={48}
             className="mr-auto mb-[2vw]"
             alt="Lucia holding a handgun while hiding behind a slightly open door. On the other side a man is pointing a handgun through the open gap."
-            src="/images/lucia-5.webp"
+            src={{
+              desktop: "/images/lucia-5/desktop.webp",
+              mobile: "/images/lucia-5/mobile.webp",
+              blur: "/images/lucia-5/blur.png",
+            }}
             objectPosition="0% center"
           />
 
@@ -93,7 +102,11 @@ const FourthVideo = () => {
             height={35}
             className="mr-auto xl:!size-[30vw]"
             alt="Lucia leaning on a motorcycle."
-            src="/images/lucia-6.webp"
+            src={{
+              desktop: "/images/lucia-6/desktop.webp",
+              mobile: "/images/lucia-6/mobile.webp",
+              blur: "/images/lucia-6/blur.png",
+            }}
             objectPosition="10% center"
           />
         </div>
@@ -103,7 +116,11 @@ const FourthVideo = () => {
           height={160}
           className="ml-auto mb-[3vw] md:hidden"
           alt="Lucia crossing her arms while holding a phone is surrounded by people dancing and flashing lights."
-          src="/images/lucia-4.webp"
+          src={{
+            desktop: "/images/lucia-4/desktop.webp",
+            mobile: "/images/lucia-4/mobile.webp",
+            blur: "/images/lucia-4/blur.png",
+          }}
           objectPosition="60% center"
         />
 
@@ -111,14 +128,22 @@ const FourthVideo = () => {
           name="lucia-sec"
           images={[
             {
-              src: "/images/lucia-5.webp",
+              src: {
+                desktop: "/images/lucia-5/desktop.webp",
+                mobile: "/images/lucia-5/mobile.webp",
+                blur: "/images/lucia-5/blur.png",
+              },
               alt: "Lucia holding a handgun while hiding behind a slightly open door. On the other side a man is pointing a handgun through the open gap.",
               width: 75,
               height: 75,
               objectPosition: "0% center",
             },
             {
-              src: "/images/lucia-6.webp",
+              src: {
+                desktop: "/images/lucia-6/desktop.webp",
+                mobile: "/images/lucia-6/mobile.webp",
+                blur: "/images/lucia-6/blur.png",
+              },
               alt: "Lucia leaning on a motorcycle.",
               width: 75,
               height: 75,

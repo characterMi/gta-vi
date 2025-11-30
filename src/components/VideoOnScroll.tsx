@@ -1,4 +1,5 @@
 import { twMerge } from "tailwind-merge";
+import Image from "./Image";
 
 const VideoOnScroll = ({
   id,
@@ -11,7 +12,7 @@ const VideoOnScroll = ({
 }: {
   id: string;
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
-  imageProps: React.ComponentProps<"img">;
+  imageProps: ImageProps;
   status: ImageBundleLoaderStatus;
   canvasClassName?: string;
   containerClassName?: string;
@@ -24,28 +25,25 @@ const VideoOnScroll = ({
     )}
     id={id}
   >
-    <img
-      loading="lazy"
+    <Image
       {...imageProps}
-      src={imageProps.src}
-      alt={imageProps.alt}
-      className={twMerge("abs-full object-cover", imageProps.className)}
+      containerClassName={twMerge("abs-full", imageProps.containerClassName)}
     />
 
     <canvas
       aria-hidden
-      className={twMerge("abs-full", canvasClassName)}
+      className={twMerge("abs-full z-1", canvasClassName)}
       ref={canvasRef}
     />
 
     {status === "error" && (
-      <p className="absolute top-1/12 left-1/2 -translate-x-1/2 text-rose-800/80 text-[5vw] md:text-[3vw] lg:text-[2vw] whitespace-nowrap font-bold">
+      <p className="absolute top-1/12 left-1/2 -translate-x-1/2 text-rose-800/80 text-[5vw] md:text-[3vw] lg:text-[2vw] whitespace-nowrap font-bold z-1">
         Couldn't load the video...
       </p>
     )}
 
     <div
-      className={twMerge("abs-full", backdropClassName)}
+      className={twMerge("abs-full z-2", backdropClassName)}
       aria-hidden
       id={id + "-backdrop"}
     />

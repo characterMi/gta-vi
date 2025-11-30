@@ -1,5 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import Image from "./Image";
 
 const MainCharactersOutro = () => {
   useGSAP(() => {
@@ -16,15 +17,18 @@ const MainCharactersOutro = () => {
 
   return (
     <div
-      className="mt-[15vw] w-full z-1 relative"
+      className="mt-[15vw] w-full height-svh z-1 relative"
       style={{ clipPath: "polygon(0 5%, 100% 5%, 100% 90%, 0 95%)" }}
     >
-      <img
-        src="/images/main-characters-outro.webp"
-        alt="Jason and Lucia Laying on a bed while they're holding hands."
-        loading="eager"
-        decoding="async"
-        className="w-full height-svh object-cover [object-position:30%_0%] outro-image translate-y-[-5%]"
+      <Image
+        src={{
+          blur: "/images/main-characters-outro/blur.png",
+          mobile: "/images/main-characters-outro/mobile.webp",
+          desktop: "/images/main-characters-outro/desktop.webp",
+        }}
+        alt="Jason and Lucia lying on a bed while holding hands."
+        className="[object-position:30%_0%]"
+        containerClassName="size-full outro-image translate-y-[-5%]"
       />
     </div>
   );
