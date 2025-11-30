@@ -100,7 +100,7 @@ const FirstVideo = () => {
         />
 
         <ImageGallery
-          name="jason"
+          name="jason-first"
           images={[
             {
               src: {

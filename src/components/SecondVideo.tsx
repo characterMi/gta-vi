@@ -126,7 +126,7 @@ const SecondVideo = () => {
         />
 
         <ImageGallery
-          name="jason-sec"
+          name="jason-second"
           images={[
             {
               src: {

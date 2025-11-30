@@ -112,7 +112,7 @@ const ThirdVideo = () => {
           />
 
           <ImageGallery
-            name="lucia"
+            name="lucia-first"
             images={[
               {
                 src: {

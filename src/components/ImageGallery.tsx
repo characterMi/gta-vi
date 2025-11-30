@@ -1,7 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import CharacterImage from "./CharacterImage";
 
@@ -14,6 +14,27 @@ type Props = {
 const ImageGallery = ({ name, className, images }: Props) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const onButtonClick = useCallback(
+    (newIndex: number) => {
+      setActiveIndex(() => {
+        const slideWidth =
+          (sliderRef.current?.scrollWidth || 0) / images.length;
+
+        gsap.to(sliderRef.current, {
+          x:
+            newIndex === 0
+              ? newIndex * slideWidth + slideWidth * -0.1
+              : -newIndex * slideWidth * 0.9,
+          duration: 0.8,
+          ease: "power3.out",
+        });
+
+        return newIndex;
+      });
+    },
+    [images.length]
+  );
 
   useGSAP(
     () => {
@@ -33,7 +54,6 @@ const ImageGallery = ({ name, className, images }: Props) => {
         cursor: "default",
         resistance: 10,
         inertia: true,
-        edgeResistance: 0.6,
         overshootTolerance: 16,
         onRelease: function () {
           const slideWidth = this.target.scrollWidth / images.length;
@@ -41,7 +61,11 @@ const ImageGallery = ({ name, className, images }: Props) => {
           const minX = slideWidth * -0.9;
           const maxX = slideWidth * -0.1;
 
-          const newIndex = Math.round(Math.abs(this.x) / slideWidth);
+          const newIndex = gsap.utils.clamp(
+            0,
+            images.length - 1,
+            Math.round(this.endX / -slideWidth)
+          );
           let targetX = this.x;
 
           if (this.x > maxX) targetX = maxX;
@@ -73,7 +97,15 @@ const ImageGallery = ({ name, className, images }: Props) => {
         name,
         className
       )}
+      aria-roledescription="Carousel"
+      aria-label={`${name} image gallery`}
+      role="region"
     >
+      {/* Accessibility */}
+      <div className="sr-only" aria-live="polite">
+        Slide {activeIndex + 1} of {images.length}
+      </div>
+
       <div
         ref={sliderRef}
         className="flex items-center justify-center gap-[3vw] -translate-x-[5%]"
@@ -84,19 +116,24 @@ const ImageGallery = ({ name, className, images }: Props) => {
         ))}
       </div>
 
-      <div
-        className="flex items-center gap-[3vw] mt-[8vw] p-[6vw] bg-white/5 w-max rounded-full mx-auto"
-        aria-hidden
-      >
-        {images.map((image, index) => (
-          <span
-            key={image.src.desktop}
-            className={twMerge(
-              "w-[2vw] h-[2vw] rounded-full transition-colors duration-300",
-              activeIndex === index ? "bg-white" : "bg-white/10"
-            )}
-          />
-        ))}
+      <div className="flex items-center gap-[3vw] mt-[8vw] p-[6vw] bg-white/5 w-max rounded-full mx-auto">
+        {images.map((image, index) => {
+          const isActive = activeIndex === index;
+          const onClick = () => onButtonClick(index);
+
+          return (
+            <button
+              key={image.src.desktop}
+              aria-label={`Go to slide ${index + 1}`}
+              aria-current={isActive}
+              className={twMerge(
+                "w-[2vw] h-[2vw] rounded-full transition-colors duration-300 cursor-pointer",
+                isActive ? "bg-white" : "bg-white/10"
+              )}
+              onClick={onClick}
+            />
+          );
+        })}
       </div>
     </div>
   );

@@ -125,7 +125,7 @@ const FourthVideo = () => {
         />
 
         <ImageGallery
-          name="lucia-sec"
+          name="lucia-second"
           images={[
             {
               src: {
