@@ -123,40 +123,6 @@ canvas {
   .hero-image {
     @apply size-full object-cover;
   }
-  .post-card {
-    @apply relative flex justify-center items-center pb-80 shadow-2xl;
-
-    .animated-gradient-bg {
-      @apply absolute w-full md:h-[200vh] h-[220vh] left-0 xl:-bottom-1/2 md:-bottom-5/6;
-    }
-
-    .post-card-wrapper {
-      @apply xl:mx-56 md:mx-12 mx-5 xl:h-[85vh] md:h-[40vh] h-[30vh] w-full flex justify-center items-center overflow-hidden relative;
-
-      video {
-        @apply w-full h-full 2xl:scale-x-105 object-cover;
-      }
-
-      img {
-        @apply absolute z-10 w-full h-full;
-      }
-
-      button {
-        @apply rounded-full bg-white absolute left-1/2 -translate-x-1/2 md:bottom-16 -bottom-28 md:w-fit w-2/3 px-5 md:px-7 py-4 text-lg;
-      }
-    }
-  }
-  .final {
-    @apply relative h-dvh overflow-hidden;
-
-    .final-content {
-      @apply scale-110;
-    }
-  }
-
-  .final-message {
-    @apply absolute w-full h-dvh overflow-hidden z-50 opacity-100;
-  }
 }
 
 .black-gradient-bg {
@@ -170,34 +136,4 @@ canvas {
     rgb(18, 18, 24) 43.03%,
     rgb(17, 17, 23) 51.63%
   );
-}
-
-.lucia-content h1,
-.lucia-content h2 {
-  background-image: radial-gradient(
-    at 80% 40%,
-    rgb(252, 82, 67) 0%,
-    rgb(223, 58, 147) 50%,
-    transparent 100%
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.mask-wrapper {
-  mask-image: url("/images/big-hero-text.svg");
-  mask-repeat: no-repeat;
-}
-
-.animated-gradient-bg {
-  background: linear-gradient(135deg, #1e2a52 0%, #6e4b91 100%);
-}
-
-.jon-content {
-  background: radial-gradient(ellipse, #111117 20%, transparent 70%);
-}
-
-.lucia-life-content {
-  background: radial-gradient(ellipse, #111117 20%, transparent 70%);
 }

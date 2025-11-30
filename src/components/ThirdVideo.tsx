@@ -38,32 +38,34 @@ const ThirdVideo = () => {
       <ThirdVdTrigger />
 
       <div className="relative z-2 flex flex-col items-center md:flex-row">
-        <div className="hidden md:flex flex-col w-1/2 lucia-first-image-container translate-y-[5%]">
-          <CharacterImage
-            width={50}
-            height={50}
-            className="mb-[2vw] lg:mb-[1vw]"
-            alt="Lucia punching a heavy bag in a gym."
-            src={{
-              desktop: "/images/lucia-1/desktop.webp",
-              mobile: "/images/lucia-1/mobile.webp",
-              blur: "/images/lucia-1/blur.png",
-            }}
-            objectPosition="85% center"
-          />
+        <div className="lucia-first-image-container translate-y-[10%] w-1/2">
+          <div className="hidden md:flex flex-col">
+            <CharacterImage
+              width={50}
+              height={50}
+              className="mb-[2vw] lg:mb-[1vw]"
+              alt="Lucia punching a heavy bag in a gym."
+              src={{
+                desktop: "/images/lucia-1/desktop.webp",
+                mobile: "/images/lucia-1/mobile.webp",
+                blur: "/images/lucia-1/blur.png",
+              }}
+              objectPosition="85% center"
+            />
 
-          <CharacterImage
-            width={35}
-            height={60}
-            className="ml-auto lg:!w-[30vw] lg:!h-[55vw]"
-            alt="Inside a jail, Lucia and another woman are handcuffed and wearing orange jumpsuits as they walk by a window where another woman watches through the glass. An officer stands nearby."
-            src={{
-              desktop: "/images/lucia-2/desktop.webp",
-              mobile: "/images/lucia-2/mobile.webp",
-              blur: "/images/lucia-2/blur.png",
-            }}
-            objectPosition="60% center"
-          />
+            <CharacterImage
+              width={35}
+              height={60}
+              className="ml-auto lg:!w-[30vw] lg:!h-[55vw]"
+              alt="Inside a jail, Lucia and another woman are handcuffed and wearing orange jumpsuits as they walk by a window where another woman watches through the glass. An officer stands nearby."
+              src={{
+                desktop: "/images/lucia-2/desktop.webp",
+                mobile: "/images/lucia-2/mobile.webp",
+                blur: "/images/lucia-2/blur.png",
+              }}
+              objectPosition="60% center"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col relative w-full md:w-[43vw] md:mr-auto md:ml-[2vw] lg:ml-[1vw]">

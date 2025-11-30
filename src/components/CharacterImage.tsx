@@ -25,7 +25,7 @@ const CharacterImage = ({
 
         <span
           aria-hidden
-          className="absolute rounded-full bg-purple-dark group-active:bg-yellow group-focus-visible:bg-yellow transition-all duration-300"
+          className="absolute rounded-full bg-purple-dark group-active:bg-yellow group-focus-visible:bg-yellow transition-all duration-300 z-1"
           style={{
             padding: width / 17 + "vw",
             bottom: width / 17 + "vw",

@@ -7,7 +7,7 @@ import ThirdVideo from "../components/ThirdVideo";
 const Videos = () => (
   <section className="relative">
     <div
-      className="absolute top-0 left-0 size-full bg-dark opacity-0 vd-section-bg z-1"
+      className="fixed top-0 left-0 size-full black-gradient-bg opacity-0 vd-section-bg -z-1 will-change-[opacity]"
       aria-hidden
     />
 

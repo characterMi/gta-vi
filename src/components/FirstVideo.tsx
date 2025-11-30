@@ -56,32 +56,34 @@ const FirstVideo = () => {
           />
         </div>
 
-        <div className="hidden md:flex flex-col w-[40vw] ml-[2vw] mt-[16vw] jason-first-image-container translate-y-[5%]">
-          <CharacterImage
-            width={51}
-            height={51}
-            className="mb-[2vw] mr-auto"
-            alt="Jason inside a car sitting behind the wheel looking into the distance."
-            src={{
-              desktop: "/images/jason-1/desktop.webp",
-              mobile: "/images/jason-1/mobile.webp",
-              blur: "/images/jason-1/blur.png",
-            }}
-            objectPosition="5% center"
-          />
+        <div className="jason-first-image-container translate-y-[10%]">
+          <div className="hidden md:flex flex-col w-[40vw] ml-[2vw] mt-[16vw]">
+            <CharacterImage
+              width={51}
+              height={51}
+              className="mb-[2vw] mr-auto"
+              alt="Jason inside a car sitting behind the wheel looking into the distance."
+              src={{
+                desktop: "/images/jason-1/desktop.webp",
+                mobile: "/images/jason-1/mobile.webp",
+                blur: "/images/jason-1/blur.png",
+              }}
+              objectPosition="5% center"
+            />
 
-          <CharacterImage
-            width={35}
-            height={35}
-            className="mr-auto"
-            alt="Four men in a bar. In the foreground, Jason and Cal are at the bar with beers. In the background two men are looking their way."
-            src={{
-              desktop: "/images/jason-3/desktop.webp",
-              mobile: "/images/jason-3/mobile.webp",
-              blur: "/images/jason-3/blur.png",
-            }}
-            objectPosition="42% center"
-          />
+            <CharacterImage
+              width={35}
+              height={35}
+              className="mr-auto"
+              alt="Four men in a bar. In the foreground, Jason and Cal are at the bar with beers. In the background two men are looking their way."
+              src={{
+                desktop: "/images/jason-3/desktop.webp",
+                mobile: "/images/jason-3/mobile.webp",
+                blur: "/images/jason-3/blur.png",
+              }}
+              objectPosition="42% center"
+            />
+          </div>
         </div>
 
         <CharacterImage
@@ -164,6 +166,16 @@ const FirstVideoTrigger = () => {
         gsap.set(".vd-section-bg", {
           opacity: normalize(0.85, 1, progress),
         });
+
+        if (progress > 0) {
+          gsap.set(".vd-section-bg", {
+            zIndex: 1,
+          });
+        } else {
+          gsap.set(".vd-section-bg", {
+            zIndex: -1,
+          });
+        }
       },
     });
 
@@ -185,6 +197,7 @@ const FirstVideoTrigger = () => {
         },
       }}
       backdropClassName="bg-[radial-gradient(circle_at_50%_20%,transparent_0%,#111117_50%)] md:bg-[radial-gradient(circle_at_75%_20%,transparent_0%,#111117_50%)]"
+      containerClassName="will-change-[filter,opacity]"
       canvasRef={canvasRef}
       status={status}
     />
