@@ -174,7 +174,7 @@ const ThirdVdTrigger = () => {
           opacity: progress >= 1 || progress <= 0 ? 0 : 1,
         });
 
-        gsap.set(".vd-section-bg", {
+        gsap.set(".main-characters-section-bg", {
           opacity: (normalize(0, 0.1, progress) - 1) * -1,
         });
 
@@ -183,7 +183,7 @@ const ThirdVdTrigger = () => {
         });
 
         if (progress >= 0.85) {
-          gsap.set(".vd-section-bg", {
+          gsap.set(".main-characters-section-bg", {
             opacity: normalize(0.85, 1, progress),
           });
         }

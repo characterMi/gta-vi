@@ -6,8 +6,9 @@ import { useInsertionEffect, useRef, useState } from "react";
 
 import Hero from "./sections/Hero";
 import Loading from "./sections/Loading";
-import Videos from "./sections/MainCharacters";
+import MainCharacters from "./sections/MainCharacters";
 import Navbar from "./sections/Navbar";
+import SideCharacters from "./sections/SideCharacters";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(Draggable);
@@ -112,7 +113,8 @@ const App = () => {
       >
         <Navbar />
         <Hero />
-        <Videos />
+        <MainCharacters />
+        <SideCharacters />
       </div>
     </>
   );

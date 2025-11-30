@@ -169,12 +169,12 @@ const SecondVdTrigger = () => {
       end: "+=175%",
       scrub: true,
       onUpdate: ({ progress }) => {
-        gsap.set(".vd-section-bg", {
+        gsap.set(".main-characters-section-bg", {
           opacity: (normalize(0, 0.1, progress) - 1) * -1,
         });
 
         if (progress >= 0.8) {
-          gsap.set(".vd-section-bg", {
+          gsap.set(".main-characters-section-bg", {
             opacity: normalize(0.8, 1, progress),
           });
         }

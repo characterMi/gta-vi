@@ -163,19 +163,10 @@ const FirstVideoTrigger = () => {
           opacity: normalize(0.4, 0.9, progress),
         });
 
-        gsap.set(".vd-section-bg", {
+        gsap.set(".main-characters-section-bg", {
           opacity: normalize(0.85, 1, progress),
+          zIndex: progress > 0 ? 1 : -1,
         });
-
-        if (progress > 0) {
-          gsap.set(".vd-section-bg", {
-            zIndex: 1,
-          });
-        } else {
-          gsap.set(".vd-section-bg", {
-            zIndex: -1,
-          });
-        }
       },
     });
 
